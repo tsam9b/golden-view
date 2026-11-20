@@ -1,0 +1,21 @@
+---
+import Rooms from "../components/Rooms.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getLocale, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+<BaseLayout
+  title={t("room.title")}
+  description={t("room.description")}
+  >
+  <section class="page">
+    <h1 style="padding-top: 4rem; text-align:center;">{t("room.title")}</h1>
+  </section>
+  <section class="section">
+    <Rooms
+        showTitle={false}
+        horizontalPadding="250px"
+    />
+</section>
+</BaseLayout>

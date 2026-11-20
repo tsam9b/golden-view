@@ -1,0 +1,55 @@
+/* Palettes are selected by [data-palette] on <html>; see src/config/theme.ts */
+:root,
+[data-palette="classic"] {
+    --navy: #10253b;
+    --navy-rgb: 16, 37, 59;
+    --sand: #f3eee5;
+    --gold: #b89055;
+    --white: #fffdf9;
+    --line: #c8c8c4;
+}
+
+[data-palette="ocean"] {
+    --navy: #0b3954;
+    --navy-rgb: 11, 57, 84;
+    --sand: #e6f1f4;
+    --gold: #2a9d8f;
+    --white: #fafdfe;
+    --line: #bcd0d6;
+}
+
+[data-palette="sunset"] {
+    --navy: #3b1f2b;
+    --navy-rgb: 59, 31, 43;
+    --sand: #f8ebe0;
+    --gold: #d9743a;
+    --white: #fffaf5;
+    --line: #dcc8bb;
+}
+
+[data-palette="forest"] {
+    --navy: #1c3328;
+    --navy-rgb: 28, 51, 40;
+    --sand: #eceee4;
+    --gold: #a68a45;
+    --white: #fbfcf7;
+    --line: #c6cabb;
+}
+
+[data-palette="midnight"] {
+    --navy: #0d1321;
+    --navy-rgb: 13, 19, 33;
+    --sand: #e8eaf0;
+    --gold: #c9a227;
+    --white: #f8f9fc;
+    --line: #c4c8d4;
+}
+
+[data-palette="rose"] {
+    --navy: #2d2a3e;
+    --navy-rgb: 45, 42, 62;
+    --sand: #f6e9e9;
+    --gold: #c06c84;
+    --white: #fffafa;
+    --line: #dbc6c9;
+}

@@ -1,0 +1,65 @@
+﻿---
+import { menu } from "../data/menu";
+import { Image } from "astro:assets";
+// import bookHere  from "../assets/book-here-02-150x150.png";
+import backgroundImage  from "../assets/backgrounds/square3.jpg";
+// import paymentMethods  from "../assets/payment-methods.png";
+import type { UiKey } from "../i18n/ui";
+import { site, phoneHref, emailHref } from "../config/site";
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+<footer class="site-footer">
+  <div class="foot">
+    <!-- Main contacts -->
+    <div class="footer-column">
+      <h3>{t("footer.findUs")}</h3>
+
+      <address>
+        <div>{site.name}</div>
+        <div>{site.tagline}</div>
+        <div>{site.address1}</div>
+        <div>{site.address2}</div>
+        <a href={emailHref}>{site.email}</a>
+        <div>{site.eot}</div>
+      </address>
+    </div>
+
+    <!-- Site links -->
+    <div class="footer-column">
+     
+    </div>
+
+    <!-- Social links -->
+    <div class="footer-column footer-social">
+       <h3>{t("footer.siteLinks")}</h3>
+
+      <nav class="footer-links" aria-label={t("footer.navLabel")}>
+        {menu
+          .filter(({ locations }) => locations.includes("footer"))
+          .map(({ section, href, classes }) => (
+            <a href={localizePath(locale, href)} class={classes?.join(" ")}>{t(`nav.${section}` as UiKey)}</a>
+          ))}
+      </nav>
+    </div>
+
+  </div>
+
+  <div class="legal" style={`
+background: color-mix(in srgb, var(--gold) 75%, #6f786e 25%);
+background-position: center center; `}>
+    <div class="legal-inner">
+      <span>
+        Created & Supported by @ Tobi Solutions
+      </span>
+      <span>
+        {site.copyright}
+      </span>
+
+      <!-- <Image src={paymentMethods} alt="paymentMethodsAlt" width={250} height={50} loading="lazy" /> -->
+    </div>
+  </div>
+</footer>``

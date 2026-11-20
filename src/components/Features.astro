@@ -1,0 +1,71 @@
+---
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+import { site } from "../config/site";
+import FeatureCard from "./FeatureCard.astro";
+
+interface Props {
+  showTitle: boolean;
+  horizontalPadding?: string;
+}
+
+const {
+  showTitle = true,
+  horizontalPadding = "120px",
+} = Astro.props;
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/features/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true },
+);
+const backgroundImages = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/backgrounds/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true },
+);
+
+function getImage(name: string): ImageMetadata {
+  const image = images[`../assets/features/${name}`]?.default;
+  if (!image) {
+    throw new Error(`Feature image "${name}" was not found in src/assets/features.`);
+  }
+  return image;
+}
+
+function getBackgroundImage(name: string): ImageMetadata {
+  const image = backgroundImages[`../assets/backgrounds/${name}`]?.default;
+  if (!image) {
+    throw new Error(`Feature background image "${name}" was not found in src/assets/backgrounds.`);
+  }
+  return image;
+}
+---
+
+<section class="section" style={`padding: 50px min(${horizontalPadding}, 7vw);`}>
+  {showTitle && (
+    <div class="section-head" style="text-align: center; margin: 0 auto; ">
+      <div style="text-align: center; margin: 0 auto;">
+        <p class="eyebrow">{t("features.eyebrow")}</p>
+        <h2>{t("features.title")}</h2>
+      </div>
+    </div>
+  )}
+
+  {site.features.map((feature) => (
+    <FeatureCard
+      title={t(feature.title)}
+      description={t(feature.description)}
+      image={getImage(feature.image)}
+      imageAlt={t(feature.imageAlt ?? feature.title)}
+      backgroundImage={getBackgroundImage(feature.backgroundImage)}
+      size={feature.size}
+      gap={feature.gap}
+      padding={feature.padding}
+      imagePosition={feature.imagePosition}
+      eyebrow={feature.eyebrow && t(feature.eyebrow)}
+      linkText={feature.linkText && t(feature.linkText)}
+      linkHref={feature.linkHref && localizePath(locale, feature.linkHref)}
+      classes={feature.classes}
+    />
+  ))}
+</section>

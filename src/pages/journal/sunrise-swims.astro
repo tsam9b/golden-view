@@ -1,0 +1,6 @@
+﻿---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import suite from '../../assets/suite.png';
+---
+<BaseLayout title="Three swims worth waking up for" description="Three water rituals to begin a day on the Aegean."><article><section class="article-hero"><Image src={suite} alt="A sunlit hotel suite overlooking the sea" widths={[768,1200,1600]} sizes="100vw" format="avif" loading="eager" /><div><p class="eyebrow">THE GOOD HOURS · 21.03.26</p><h1>Three swims worth waking up for.</h1><p>The water looks different before the rest of the world catches up.</p></div></section><section class="section prose"><p>First light makes the sea feel newly invented. There is no agenda beyond finding a little water, a little warmth and the right kind of quiet.</p><h2>Before breakfast</h2><p>Start at the hotel pool, when it is still mirror-calm. Later, follow the small path down to the sheltered cove. Save the last swim for sundown, when the horizon turns soft and blue.</p></section></article></BaseLayout>

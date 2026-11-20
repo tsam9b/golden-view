@@ -1,0 +1,6 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro'; const title='Rooms & Suites';
+const rooms=[['The Horizon Suite','48 m² · Sea-facing · King bed','€420','/rooms/horizon-suite'],['The Courtyard Room','32 m² · Garden-facing · King bed','€320','/rooms/courtyard-room'],['The Pool House','62 m² · Private pool · King bed','€560','/rooms/pool-house']];
+---
+<BaseLayout title={title} description="Three distinct ways to settle into MotionHotel."><section class="page"><p class="eyebrow">SLEEP DEEPLY</p><h1>{title}</h1><p>Honest materials, soft light, and a view that knows when to be quiet.</p></section><section class="section"><div class="rooms">{rooms.map(([name,details,rate,href])=><a class="room" href={href}><i>FROM {rate} / NIGHT</i><h2>{name}</h2><small>{details}</small></a>)}</div></section></BaseLayout>
+

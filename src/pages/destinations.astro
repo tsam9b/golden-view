@@ -1,0 +1,26 @@
+---
+import Services from "../components/Services.astro";
+import Features from "../components/Features.astro";
+import DestinationsIntro from "../components/DestinationsIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getLocale, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+<BaseLayout
+  title={t("features.title")}
+  description={t("features.page.description")}
+  >
+  <section class="page">
+    <h1 style="padding-top: 4rem; text-align:center;">{t("features.title")}</h1>
+  </section>
+
+  <section class="section">
+    <DestinationsIntro />
+    <Services />
+    <Features
+        showTitle={true}
+        horizontalPadding="50px"
+    />
+</section>
+</BaseLayout>

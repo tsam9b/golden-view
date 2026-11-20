@@ -1,0 +1,6 @@
+﻿---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import wellness from '../../assets/wellness.png';
+---
+<BaseLayout title="The case for arriving without a plan" description="Why the best island itinerary begins with one free afternoon."><article><section class="article-hero"><Image src={wellness} alt="Outdoor pool and olive trees above the Aegean" widths={[768,1200,1600]} sizes="100vw" format="avif" loading="eager" /><div><p class="eyebrow">SLOW TRAVEL · 06.04.26</p><h1>The case for arriving without a plan.</h1><p>Why the most memorable days begin with room for surprise.</p></div></section><section class="section prose"><p>A good arrival is rarely efficient. It has enough time for the road to take the long way, for a swim before the bags are unpacked, for a question asked to a local over coffee.</p><h2>Leave a little blank space</h2><p>We like an itinerary with soft edges. Book the dinner, perhaps. But let the rest be led by weather, appetite and whichever small lane catches your eye.</p><p>At MotionHotel, that might mean a late breakfast becoming lunch, then an unplanned afternoon in the shade. There is nothing to catch up on here.</p></section></article></BaseLayout>

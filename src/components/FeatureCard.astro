@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import backgroundImageDefault from "../assets/backgrounds/square3.jpg";
+
+interface Props {
+  eyebrow?: string | null;
+  title: string;
+  description?: string | null;
+  linkText?: string | null;
+  linkHref?: string | null;
+  image: ImageMetadata;
+  imageAlt: string;
+  imagePosition?: "left" | "right";
+  padding?: string;
+  backgroundImage?: ImageMetadata;
+  size?: [number, number];
+  gap?: string;
+  classes?: string[];
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  linkText,
+  linkHref,
+  image,
+  imageAlt,
+  imagePosition = "right",
+  padding = "0",
+  backgroundImage = backgroundImageDefault,
+  size = [1, 1],
+  gap = "0",
+  classes = [],
+} = Astro.props;
+
+const hasDescription = Boolean(description?.trim());
+---
+
+<section 
+    class:list={["feature", `image-${imagePosition}`, ...classes]}
+    style={`padding: ${padding}; gap: ${gap}; --cols: ${size[0]}fr ${size[1]}fr;`}
+>
+  <div
+    style={`
+      background-image:
+        url(${backgroundImage.src});
+      background-position: center bottom;
+      background-size: cover;
+    `}
+  >
+    <div
+      class:list={[
+        "feature-copy text-white",
+        { "feature-copy-centered": !hasDescription },
+      ]}
+      data-reveal
+    >
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+
+      <h4 class="pb-1">{title}</h4>
+
+      {hasDescription && <p>{description}</p>}
+
+      {linkText && (
+        <a class="small-link" {...(linkHref ? { href: linkHref } : {})}>
+          {linkText} &#8599;
+        </a>
+      )}
+    </div>
+  </div>
+
+  <div class="photo" data-reveal>
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 760px) 100vw, 50vw"
+      format="avif"
+      loading="lazy"
+    />
+  </div>
+</section>

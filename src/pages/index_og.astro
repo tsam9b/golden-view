@@ -1,0 +1,286 @@
+﻿---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import hero from "../assets/motionhotel-hero.png";
+import suite from "../assets/suite.png";
+import breakfast from "../assets/breakfast.png";
+import wellness from "../assets/wellness.png";
+import coffee from "../assets/instagram-coffee.png";
+import pool from "../assets/instagram-pool.png";
+---
+
+<BaseLayout
+  title="A different kind of stillness"
+  description="A fictional boutique Aegean retreat made for unhurried days and luminous nights."
+  ><section class="hero">
+    <Image
+      src={hero}
+      alt="A cliffside MotionHotel at blue hour"
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      format="avif"
+      loading="eager"
+    /><div class="hero-copy" data-reveal>
+      <p class="eyebrow">AEGEAN COAST · SINCE 2025</p><h1 class="display">
+        Make room<br />for <em>the slow.</em>
+      </h1><p class="lead">
+        A considered hideaway where sun-warmed stone, salt water and the art of
+        doing less come together.
+      </p><a class="btn" href="/contact">Find your room &#8599;</a>
+    </div>
+  </section><section class="section">
+    <div class="intro" data-reveal>
+      <p class="eyebrow">AN UNHURRIED ADDRESS</p><div>
+        <h2>Designed around the <em>luxury of time.</em></h2><p>
+          MotionHotel is a small, independent stay set between wild olive groves
+          and the endless blue. Everything here has a reason to be—and plenty of
+          room to breathe.
+        </p>
+      </div>
+    </div><div class="stats">
+      <div><strong>28</strong><span>Distinct rooms & suites</span></div><div>
+        <strong>18°C</strong><span>The pool, year round</span>
+      </div><div><strong>8</strong><span>Ways to do nothing</span></div>
+    </div>
+  </section>
+  <section class="feature">
+    <div class="feature-copy" data-reveal>
+      <p class="eyebrow">THE HOUSE RITUAL</p><h2>
+        A morning, stretched beautifully.
+      </h2><p>
+        Breakfast arrives slowly. A swim follows instinct. There is no itinerary
+        except the one you make between the sea and a very good nap.
+      </p><a class="small-link" href="/experiences"
+        >Explore our rituals &#8599;</a>
+    </div><div class="photo" data-reveal>
+      <Image
+        src={wellness}
+        alt="A private outdoor plunge pool at MotionHotel"
+        widths={[640, 960, 1280]}
+        sizes="(max-width: 760px) 100vw, 50vw"
+        format="avif"
+        loading="lazy"
+      />
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">SLEEP DEEPLY</p><h2>Rooms with a point of view.</h2>
+      </div><a class="small-link" href="/rooms">See all roomss &#8599;</a>
+    </div><div class="rooms" data-reveal>
+      <a class="room" href="/rooms/horizon-suite"
+        ><Image
+          src={suite}
+          alt="The Horizon Suite"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 100vw, 33vw"
+          format="avif"
+          loading="lazy"
+        /><i>FROM €420 / NIGHT</i><h3>The Horizon Suite</h3><small
+          >Sea-facing · 48 m²</small
+        ></a
+      ><a class="room" href="/rooms/courtyard-room"
+        ><Image
+          src={breakfast}
+          alt="The Courtyard Room"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 100vw, 33vw"
+          format="avif"
+          loading="lazy"
+        /><i>FROM €320 / NIGHT</i><h3>The Courtyard Room</h3><small
+          >Garden-facing · 32 m²</small
+        ></a
+      ><a class="room" href="/rooms/pool-house"
+        ><Image
+          src={wellness}
+          alt="The Pool House"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 100vw, 33vw"
+          format="avif"
+          loading="lazy"
+        /><i>FROM €560 / NIGHT</i><h3>The Pool House</h3><small
+          >Private plunge pool · 62 m²</small
+        ></a>
+    </div>
+  </section><section class="section stay-section">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">THE ART OF STAYING IN</p><h2>
+          Small details,<br /><em>deeply felt.</em>
+        </h2>
+      </div><p class="section-note">
+        Natural stone underfoot. Linen that gets softer every day. A sea view
+        from the first cup of coffee.
+      </p>
+    </div><div class="stay-grid">
+      <div class="stay-image stay-image--tall" data-reveal>
+        <Image
+          src={suite}
+          alt="A sunlit MotionHotel suite with sea view"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 100vw, 42vw"
+          format="avif"
+          loading="lazy"
+        />
+      </div><div class="stay-copy" data-reveal>
+        <span class="stay-number">01</span><h3>
+          Rooms made for a slower morning.
+        </h3><p>
+          Every room pairs hand-finished local materials with quiet, practical
+          comfort. Open the shutters, take your time.
+        </p><a class="small-link" href="/rooms">Explore the rooms ↗</a>
+      </div><div class="stay-copy stay-copy--bottom" data-reveal>
+        <span class="stay-number">02</span><h3>
+          A table with nowhere else to be.
+        </h3><p>
+          Island fruit, bread from the village bakery and coffee served while
+          the terrace is still cool.
+        </p><a class="small-link" href="/experiences">Taste the island ↗</a>
+      </div><div class="stay-image" data-reveal>
+        <Image
+          src={breakfast}
+          alt="A Mediterranean breakfast on a sea-view terrace"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 760px) 100vw, 45vw"
+          format="avif"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+  <section class="wellness">
+    <div class="wellness-image" data-reveal>
+      <Image
+        src={wellness}
+        alt="Outdoor stone shower and plunge pool facing the sea"
+        widths={[480, 720, 960]}
+        sizes="(max-width: 760px) 100vw, 50vw"
+        format="avif"
+        loading="lazy"
+      />
+    </div><div class="wellness-copy" data-reveal>
+      <p class="eyebrow">RESTORATIVE BY NATURE</p><h2>
+        The ritual is simply<br /><em>to exhale.</em>
+      </h2><p>
+        Take a cold shower beneath the olive branches. Soak as the day softens.
+        Let the island reset the pace.
+      </p><div class="ritual-list">
+        <span>01 · Sunrise swim</span><span>02 · Olive oil treatment</span><span
+          >03 · Moonlit soak</span>
+      </div><a class="btn" href="/experiences">Discover the rituals ↗</a>
+    </div>
+  </section>
+  <section class="section press-section">
+    <p class="eyebrow" data-reveal">KIND WORDS</p><div
+      class="press-grid"
+      data-reveal
+    >
+      <blockquote>
+        “A masterclass in the quiet power of place.”<cite
+          >Condé Nast Traveller</cite>
+      </blockquote><blockquote>
+        “The kind of hotel you plan the rest of a trip around.”<cite
+          >Monocle</cite>
+      </blockquote><blockquote>
+        “Proof that less, when done right, is more than enough.”<cite
+          >Vogue Living</cite>
+      </blockquote>
+    </div>
+  </section><section class="section social-section">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">FROM THE ISLAND</p><h2>Follow the feeling.</h2>
+      </div><a class="small-link" href="https://instagram.com" rel="nofollow"
+        >@motionhotel &#8599;</a>
+    </div><div class="social-grid" data-reveal>
+      <a
+        class="social-post social-post--wide"
+        href="https://instagram.com"
+        aria-label="View MotionHotel post"
+        ><Image
+          src={hero}
+          alt="MotionHotel at blue hour"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 760px) 100vw, 50vw"
+          format="avif"
+          loading="lazy"
+        /></a
+      ><a
+        class="social-post"
+        href="https://instagram.com"
+        aria-label="View MotionHotel post"
+        ><Image
+          src={coffee}
+          alt="Coffee and linen in a hotel suite"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 50vw, 25vw"
+          format="avif"
+          loading="lazy"
+        /></a
+      ><a
+        class="social-post"
+        href="https://instagram.com"
+        aria-label="View MotionHotel post"
+        ><Image
+          src={pool}
+          alt="Sun lounger by an infinity pool"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 50vw, 25vw"
+          format="avif"
+          loading="lazy"
+        /></a
+      ><a
+        class="social-post"
+        href="https://instagram.com"
+        aria-label="View MotionHotel post"
+        ><Image
+          src={breakfast}
+          alt="Breakfast on the hotel terrace"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 50vw, 25vw"
+          format="avif"
+          loading="lazy"
+        /></a
+      ><a
+        class="social-post social-post--tall"
+        href="https://instagram.com"
+        aria-label="View MotionHotel post"
+        ><Image
+          src={wellness}
+          alt="MotionHotel outdoor wellness pool"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 760px) 50vw, 25vw"
+          format="avif"
+          loading="lazy"
+        /></a>
+    </div>
+  </section><section class="quote">
+    <blockquote>
+      “The rare sort of place that makes you forget what day it is.”
+    </blockquote><cite>— LUCIA V., MILAN</cite>
+  </section><section class="section journal">
+    <div>
+      <p class="eyebrow">NOTES FROM THE COAST</p><h2>Read slowly.</h2>
+    </div><div class="posts">
+      <a class="post" href="/journal/slow-travel"
+        ><time>06.04.26</time><h3>The case for arriving without a plan</h3><span
+          >&#8599;</span
+        ></a
+      ><a class="post" href="/journal"
+        ><time>21.03.26</time><h3>Three swims worth waking up for</h3><span
+          >&#8599;</span
+        ></a
+      ><a class="post" href="/journal"
+        ><time>09.02.26</time><h3>
+          Our guide to the quiet side of the island
+        </h3><span>&#8599;</span></a>
+    </div>
+  </section><section class="section" style="padding-top:0">
+    <div class="callout">
+      <p class="eyebrow">A LITTLE CLOSER</p><h2>
+        Come and be <em>unbusy.</em>
+      </h2><a class="btn" href="/contact">Plan your escape &#8599;</a>
+    </div>
+  </section></BaseLayout
+>

@@ -1,0 +1,30 @@
+﻿# MotionHotel
+
+> MotionHotel is a premium, fully static Astro 7 theme for fictional boutique hotels, retreats and design-led stays. It does not require a CMS and uses local, responsive AVIF image optimisation plus Motion-powered interface animation.
+
+This demonstration website uses placeholder hotel details and the `motionhotel.example` domain. Before deployment, replace the domain, contact information, booking recipient and legal placeholders with production values.
+
+## Main pages
+
+- [Homepage](https://motionhotel.example/): Overview of the fictional hotel, rooms, rituals, editorial stories and contact call to action.
+- [Rooms and suites](https://motionhotel.example/rooms): Room overview with individual pages for each suite.
+- [Experiences](https://motionhotel.example/experiences): Hotel rituals, dining and wellbeing content.
+- [Journal](https://motionhotel.example/journal): Editorial travel and hotel stories.
+- [Contact and reservations](https://motionhotel.example/contact): Static mailto-based availability request form.
+- [About MotionHotel](https://motionhotel.example/about): Hotel story, values and design philosophy.
+
+## Guest information
+
+- [Booking terms](https://motionhotel.example/terms): Adaptable booking-conditions template.
+- [Privacy policy](https://motionhotel.example/privacy): Adaptable privacy-policy template.
+- [Cookie policy](https://motionhotel.example/cookies): Cookie and consent-management template.
+- [Imprint](https://motionhotel.example/imprint): Adaptable legal provider-information template.
+
+## Technical resources
+
+- [Robots policy](https://motionhotel.example/robots.txt): Crawling guidance and sitemap location.
+- [XML sitemap](https://motionhotel.example/sitemap.xml): Indexable public pages.
+
+## Optional
+
+- [Theme creator](https://noel.marketing/astro-themes/): Noel Dario Andres Astro Themes.

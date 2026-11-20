@@ -1,0 +1,124 @@
+﻿---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import hero from "../assets/motionhotel-hero.png";
+import suite from "../assets/suite.png";
+import dinner from "../assets/dinner.png";
+---
+
+<BaseLayout title="Our story" description="The slower side of a Greek island.">
+  <section class="about-hero">
+    <Image
+      src={hero}
+      alt="MotionHotel glowing above the Aegean at blue hour"
+      widths={[768, 1200, 1600]}
+      sizes="100vw"
+      format="avif"
+      loading="eager"
+    />
+    <div>
+      <p class="eyebrow">OUR STORY</p>
+      <h1>
+        A house that knows
+        <br />
+        when to be quiet.
+      </h1>
+    </div>
+  </section>
+  <section class="section about-intro">
+    <p class="eyebrow">AN ADDRESS WITH A POINT OF VIEW</p>
+    <div>
+      <h2>
+        Built around the
+        <br />
+        <em>luxury of less.</em>
+      </h2>
+      <p>
+        MotionHotel began with a simple idea: the best places do not compete
+        with their setting. They let the landscape lead—the light, the wind, the
+        line where the sea meets the sky.
+      </p>
+      <p>
+        We made a small hotel for people who want to arrive, put the phone down,
+        and remember how long a day can feel.
+      </p>
+    </div>
+  </section>
+  <section class="about-values">
+    <article>
+      <span>01</span>
+      <h2>Local by nature</h2>
+      <p>
+        From stone and timber to the food on your plate, we choose makers and
+        ingredients from nearby whenever we can.
+      </p>
+    </article>
+    <article>
+      <span>02</span>
+      <h2>Thoughtful, not precious</h2>
+      <p>
+        Beautiful things are made to be used. Linen gets rumpled, doors stay
+        open, and no one minds sandy feet.
+      </p>
+    </article>
+    <article>
+      <span>03</span>
+      <h2>Lightly here</h2>
+      <p>
+        We keep the footprint small: water-conscious planting, seasonal menus
+        and a deep respect for the place we call home.
+      </p>
+    </article>
+  </section>
+  <section class="about-image-text">
+    <div>
+      <Image
+        src={suite}
+        alt="A restful MotionHotel suite overlooking the sea"
+        widths={[640, 960, 1280]}
+        sizes="(max-width: 760px) 100vw, 50vw"
+        format="avif"
+        loading="lazy"
+      />
+    </div>
+    <div>
+      <p class="eyebrow">THE ROOMS</p>
+      <h2>For sleeping late and waking well.</h2>
+      <p>
+        Twenty-eight rooms and suites each have their own character, but all
+        share the same quiet palette: warm stone, natural linen, handmade
+        objects and light that moves across the walls all day.
+      </p>
+      <a class="small-link" href="/rooms">
+        Find your room &#8599;
+      </a>
+    </div>
+  </section>
+  <section class="about-quote">
+    <blockquote>
+      “We want every guest to leave with a little more space inside their day.”
+    </blockquote>
+    <cite>— ELENI & NIKOS, FOUNDERS</cite>
+  </section>
+  <section class="section about-closing">
+    <div>
+      <p class="eyebrow">COME AS YOU ARE</p>
+      <h2>There is room for you here.</h2>
+      <p>
+        For an anniversary, a solo escape, a long-overdue conversation, or
+        simply a change of air.
+      </p>
+      <a class="btn" href="/contact">
+        Make an enquiry &#8599;
+      </a>
+    </div>
+    <Image
+      src={dinner}
+      alt="MotionHotel dinner terrace at dusk"
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 760px) 100vw, 45vw"
+      format="avif"
+      loading="lazy"
+    />
+  </section>
+</BaseLayout>

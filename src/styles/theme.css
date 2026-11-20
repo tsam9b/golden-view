@@ -1,0 +1,172 @@
+/* Driven by data attributes on <html>; see src/config/theme.ts */
+
+:root {
+    --radius: 0px;
+    --paper: var(--white);
+    --ink: var(--navy);
+}
+
+/* Dark mode derives its surfaces from the active palette's --navy */
+[data-mode="dark"] {
+    color-scheme: dark;
+    --paper: color-mix(in srgb, var(--navy) 80%, #000);
+    --ink: var(--white);
+    --sand: color-mix(in srgb, var(--navy), #fff 8%);
+    --line: color-mix(in srgb, var(--navy), #fff 22%);
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-mode="auto"] {
+        color-scheme: dark;
+        --paper: color-mix(in srgb, var(--navy) 80%, #000);
+        --ink: var(--white);
+        --sand: color-mix(in srgb, var(--navy), #fff 8%);
+        --line: color-mix(in srgb, var(--navy), #fff 22%);
+    }
+}
+
+[data-mode="dark"] input,
+[data-mode="dark"] select,
+[data-mode="dark"] textarea {
+    background: var(--sand);
+    color: var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-mode="auto"] input,
+    [data-mode="auto"] select,
+    [data-mode="auto"] textarea {
+        background: var(--sand);
+        color: var(--ink);
+    }
+}
+
+/* Radius */
+[data-radius="soft"] { --radius: 6px; }
+[data-radius="round"] { --radius: 14px; }
+[data-radius="pill"] { --radius: 28px; }
+
+.btn,
+.reserve,
+.room,
+.room-label,
+.google-map,
+.contact-banner,
+input,
+select,
+textarea {
+    border-radius: var(--radius);
+}
+
+[data-radius="pill"] .room,
+[data-radius="pill"] .contact-banner,
+[data-radius="pill"] .google-map {
+    border-radius: 28px;
+}
+
+[data-radius="pill"] .btn,
+[data-radius="pill"] .reserve {
+    border-radius: 999px;
+}
+
+[data-radius="pill"] input,
+[data-radius="pill"] select,
+[data-radius="pill"] textarea {
+    border-radius: 20px;
+}
+
+.google-map { overflow: hidden; }
+
+/* Spacing */
+[data-spacing="compact"] .section { padding-block: 28px !important; }
+[data-spacing="spacious"] .section { padding-block: 110px !important; }
+
+/* Container width */
+.section {
+    max-width: var(--container-max, none);
+    margin-inline: auto;
+}
+
+/* Headings */
+[data-h-transform="uppercase"] :is(h1, h2, h3, .display) { text-transform: uppercase; }
+[data-h-tracking="tight"] :is(h1, h2, h3, .display) { letter-spacing: -.02em; }
+[data-h-tracking="wide"] :is(h1, h2, h3, .display) { letter-spacing: .06em; }
+[data-h-weight] :is(h1, h2, h3, .display) { font-weight: var(--h-weight); }
+
+/* Buttons */
+[data-button="outline"] .btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+}
+
+[data-button="outline"] .btn:hover {
+    background: var(--gold);
+    color: #fff;
+}
+
+[data-button="ghost"] .btn {
+    background: transparent;
+    color: var(--gold);
+    padding-inline: 4px;
+}
+
+[data-button="ghost"] .btn:hover {
+    background: transparent;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+/* Header */
+[data-header="solid"] .header {
+    position: relative;
+    background: var(--navy) !important;
+}
+
+[data-header-sticky="true"] .header {
+    position: fixed;
+    top: 0;
+    padding-block: 14px;
+    background: color-mix(in srgb, var(--navy) 92%, transparent) !important;
+    backdrop-filter: blur(8px);
+}
+
+@media (min-width: 761px) {
+    [data-logo="center"] .header .brand { order: 2; }
+    [data-logo="center"] .header nav { order: 1; }
+    [data-logo="center"] .header .reserve { order: 3; }
+}
+
+/* Cards */
+[data-card-shadow="soft"] .room { box-shadow: 0 6px 18px rgba(0, 0, 0, .14); }
+[data-card-shadow="strong"] .room { box-shadow: 0 14px 38px rgba(0, 0, 0, .32); }
+
+[data-card-aspect]:not([data-card-aspect="auto"]) .room {
+    aspect-ratio: var(--card-aspect);
+    min-height: 0;
+}
+
+/* Room columns (tablet and mobile keep their own layouts) */
+@media (min-width: 1001px) {
+    .rooms,
+    .rooms[data-size] {
+        grid-template-columns: repeat(var(--room-cols, 3), 1fr);
+    }
+}
+
+/* Image treatment */
+[data-img-filter="muted"] main img { filter: saturate(.7) contrast(.96); }
+[data-img-filter="warm"] main img { filter: sepia(.22) saturate(1.1); }
+[data-img-filter="mono"] main img { filter: grayscale(1); }
+
+/* Footer */
+[data-footer="minimal"] .foot .footer-column:not(:first-child) { display: none; }
+
+/* Motion */
+[data-motion="off"] *,
+[data-motion="off"] *::before,
+[data-motion="off"] *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+}

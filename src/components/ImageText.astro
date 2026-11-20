@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  image: ImageMetadata;
+  eyebrow: string;
+  title: string;
+  text: string;
+  buttonText: string;
+  buttonLink: string;
+  imageAlt?: string;
+}
+
+const {
+  image,
+  eyebrow,
+  title,
+  text,
+  buttonText,
+  buttonLink,
+  imageAlt = title,
+} = Astro.props;
+---
+
+<section class="image-text">
+  <div class="image-text__image">
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 760px) 100vw, 50vw"
+      format="avif"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="image-text__content">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2>{title}</h2>
+    <p>{text}</p>
+    <a class="btn" href={buttonLink}>{buttonText}</a>
+  </div>
+</section>

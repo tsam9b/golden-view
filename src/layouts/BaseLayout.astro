@@ -1,0 +1,89 @@
+﻿---
+import "../styles/palettes.css";
+import "../styles/global.css";
+import "../styles/theme.css";
+import { themeAttrs, themeStyle, themeColor, fontsUrl } from "../config/theme";
+import { site as brand } from "../config/site";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+const { title, description, noindex = false, headerBg = true } = Astro.props;
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://motionhotel.example",
+).toString();
+import { locales } from "../i18n/ui";
+import { getLocale, localizePath, stripLocale } from "../i18n/utils";
+const locale = getLocale(Astro.currentLocale);
+const basePath = stripLocale(Astro.url.pathname);
+const site = Astro.site ?? "https://motionhotel.example";
+---
+
+<!doctype html>
+<html lang={locale} style={themeStyle} {...themeAttrs}>
+  <head
+    ><meta charset="UTF-8" /><meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    /><title>{title} | {brand.name}</title><meta
+      name="description"
+      content={description}
+    /><link rel="canonical" href={canonical} /><link rel="icon" href={brand.favicon.svg} type="image/svg+xml" /><link rel="icon" href={brand.favicon.ico} sizes="any" />{
+      locales.map((l) => (
+        <link
+          rel="alternate"
+          hreflang={l}
+          href={new URL(localizePath(l, basePath), site).toString()}
+        />
+      ))
+    }<link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(basePath, site).toString()}
+    />{noindex && <meta name="robots" content="noindex,follow" />}<meta
+      property="og:type"
+      content="website"
+    /><meta
+      property="og:title"
+      content={`${title} | The Cellar Project`}
+    /><meta property="og:description" content={description} /><meta
+      property="og:url"
+      content={canonical}
+    /><meta name="twitter:card" content="summary_large_image" /><meta
+      name="theme-color"
+      content={themeColor}
+    /><link rel="preconnect" href="https://fonts.googleapis.com" /><link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    /><link
+      href={fontsUrl}
+      rel="stylesheet"
+    /></head
+  ><body
+    ><a class="skip" href="#content">Skip to content</a><Header bgImage={headerBg} /><main
+      id="content"
+    >
+      <slot />
+    </main><Footer /><script>
+      import { animate, inView } from "motion";
+      if (
+        !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+        document.documentElement.dataset.motion !== "off"
+      )
+        document.querySelectorAll("[data-reveal]").forEach((e) =>
+          inView(
+            e,
+            () => {
+              if (e.dataset.revealed) return;
+              e.dataset.revealed = "true";
+              animate(
+                e,
+                { opacity: [0, 1], y: [24, 0] },
+                { duration: 0.65, easing: [0.22, 1, 0.36, 1] },
+              );
+            },
+            { amount: 0.16 },
+          ),
+        );
+    </script></body>
+</html>

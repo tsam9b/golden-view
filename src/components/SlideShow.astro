@@ -1,0 +1,201 @@
+---
+import { Image } from "astro:assets";
+import { site} from "../config/site";
+import { getLocale, useTranslations } from "../i18n/utils";
+import { theme } from "../config/theme";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+const { scrollTo } = Astro.props as { scrollTo?: string };
+const modules = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/gallery/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true },
+);
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/gallery/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true }
+);
+
+const slides = site.slideshow
+  .map((name) => images[`../assets/gallery/${name}`]?.default)
+  .filter((img): img is ImageMetadata => Boolean(img));
+
+const isStatic = theme.hero.mode === "static";
+const shown = isStatic ? slides.slice(0, 1) : slides;
+
+// const slides = Object.entries(modules)
+//   .sort(([a], [b]) => a.localeCompare(b))
+//   .map(([, m]) => m.default);
+// const isStatic = theme.hero.mode === "static";
+// const shown = isStatic ? slides.slice(0, 1) : slides;
+---
+
+<section class="slideshow" data-autoplay={String(theme.hero.autoplay && !isStatic)} data-interval={theme.hero.intervalMs} aria-roledescription="carousel" aria-label={t("slideshow.label")}>
+  <div class="slides">
+    {
+      shown.map((img, i) => (
+        <div class:list={["slide", { active: i === 0 }]}>
+          <Image
+            src={img}
+            alt={t("slideshow.photo", { n: i + 1 })}
+            widths={[768, 1280, 1600]}
+            sizes="100vw"
+            loading={i === 0 ? "eager" : "lazy"}
+          />
+        </div>
+      ))
+    }
+  </div>
+  {!isStatic && <button class="nav prev" type="button" aria-label={t("slideshow.prev")}>&#10094;</button>}
+  {!isStatic && <button class="nav next" type="button" aria-label={t("slideshow.next")}>&#10095;</button>}
+  {scrollTo && (
+    <a class="scroll-down" href={`#${scrollTo}`} aria-label={t("slideshow.scrollDown")}>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m5 9 7 7 7-7" />
+      </svg>
+    </a>
+  )}
+  {!isStatic && (
+    <div class="dots">
+      {slides.map((_, i) => (
+        <button type="button" class:list={["dot", { active: i === 0 }]} aria-label={t("slideshow.goTo", { n: i + 1 })} data-index={i}></button>
+      ))}
+    </div>
+  )}
+</section>
+
+<style>
+  .slideshow {
+    position: relative;
+    width: 100%;
+    height: var(--hero-height, 100svh);
+    overflow: hidden;
+  }
+  .slideshow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(var(--navy-rgb), var(--hero-overlay, .55)), transparent 35%);
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .slide.active {
+    opacity: 1;
+  }
+  .slide :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .nav {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    border: 0;
+    padding: 0.75rem 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .prev { left: 0; }
+  .next { right: 0; }
+  .dots {
+    z-index: 2;
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+  .dot.active {
+    background: #fff;
+  }
+  .scroll-down {
+    z-index: 2;
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-left: -1.625rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid #ffffffaa;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    animation: scroll-bounce 2s ease-in-out infinite;
+    transition: background 0.2s;
+  }
+  .scroll-down:hover,
+  .scroll-down:focus-visible {
+    background: rgba(0, 0, 0, 0.55);
+  }
+  .scroll-down svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @keyframes scroll-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-down { animation: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".slideshow").forEach((root) => {
+    const slides = root.querySelectorAll<HTMLElement>(".slide");
+    const dots = root.querySelectorAll<HTMLElement>(".dot");
+    let current = 0;
+    let timer: number;
+
+    const show = (n: number) => {
+      current = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle("active", i === current));
+      dots.forEach((d, i) => d.classList.toggle("active", i === current));
+    };
+    const start = () => {
+      clearInterval(timer);
+      if (root.dataset.autoplay !== "true") return;
+      timer = window.setInterval(
+        () => show(current + 1),
+        Number(root.dataset.interval) || 5000,
+      );
+    };
+    const go = (n: number) => {
+      show(n);
+      start();
+    };
+
+    root.querySelector(".prev")?.addEventListener("click", () => go(current - 1));
+    root.querySelector(".next")?.addEventListener("click", () => go(current + 1));
+    dots.forEach((d, i) => d.addEventListener("click", () => go(i)));
+    start();
+  });
+</script>

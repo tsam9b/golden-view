@@ -1,0 +1,70 @@
+---
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+import { site } from "../config/site";
+import { Image } from "astro:assets";
+import backgroundImage from "../assets/backgrounds/square.jpg";
+
+interface Props {
+  title?: string;
+  description?: string;
+  phone?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  backgroundAlt?: string;
+}
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const {
+  title = t("banner.title"),
+  description = t("banner.description"),
+  phone = site.phone,
+  buttonText = t("banner.button"),
+  buttonHref = localizePath(locale, "/contact"),
+  backgroundAlt = "",
+} = Astro.props;
+---
+
+<div class="contact-banner">
+  <Image
+    class="banner-background"
+    src={backgroundImage}
+    alt={backgroundAlt}
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    format="webp"
+    loading="lazy"
+  />
+
+  <div class="banner-content" style="margin:0 auto; align-items: center; width: 100%; max-width: 1050px;">
+    <div class="banner-icon" aria-hidden="true">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m4 12 5 5L20 6" />
+      </svg>
+    </div>
+
+    <div class="banner-text">
+      <h2>
+        {title} {site.phone}
+        <!-- <a href={`tel:${phone.replace(/\s/g, "")}`} class="phone">
+          {phone}
+        </a> -->
+      </h2>
+
+      <p>{description}</p>
+    </div>
+
+    <a href={buttonHref} class="banner-button">
+      {buttonText}
+    </a>
+  </div>
+</div>

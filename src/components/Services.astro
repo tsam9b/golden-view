@@ -1,0 +1,36 @@
+---
+import { getLocale, useTranslations } from "../i18n/utils";
+import { defaultLocale, ui } from "../i18n/ui";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const services = ui[locale].services ?? ui[defaultLocale].services ?? [];
+const icons = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/services/*.{svg,png}",
+  { eager: true },
+);
+---
+<section class="section">
+    <div class="section-head">
+      <div style="margin:0 auto;">
+        <h2>{t("services.title")}</h2>
+      </div>
+    </div>
+    <div class="facilities flx"  style="padding:0 min(120px, 5vw)">
+      {services.map((service) => {
+        const icon = icons[`../assets/services/${service.icon}`]?.default;
+        if (!icon) {
+          throw new Error(`Service icon "${service.icon}" was not found.`);
+        }
+
+        return (
+          <div class="item">
+            <div class="icon-cont flx">
+              <img decoding="async" width="45" height="45" class="icon" src={icon.src} alt="" />
+            </div>
+            <p>{service.title}</p>
+          </div>
+        );
+      })}
+    </div>
+</section>

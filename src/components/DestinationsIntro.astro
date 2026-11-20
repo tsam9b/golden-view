@@ -1,0 +1,19 @@
+---
+import { getLocale, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<section class="intro-text">
+  <h2>{t("introText.heading")}</h2>
+  <p>{t("introText.details")}</p>
+  <p>{t("introText.contact")}</p>
+</section>
+
+  <div class="section-head" style="text-align: center; margin: 0 auto; ">
+    <div style="text-align: center; margin: 0 auto;">
+      <p class="eyebrow">{t("features.eyebrow")}</p>
+      <h2>{t("features.title")}</h2>
+      <p>{t("introText.contact")}</p>
+    </div>
+  </div>

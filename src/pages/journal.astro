@@ -1,0 +1,13 @@
+﻿---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import suite from '../assets/suite.png';
+import breakfast from '../assets/breakfast.png';
+import wellness from '../assets/wellness.png';
+const posts = [
+  { date: '06.04.26', title: 'The case for arriving without a plan', href: '/journal/slow-travel', image: wellness, alt: 'A quiet pool and sea view' },
+  { date: '21.03.26', title: 'Three swims worth waking up for', href: '/journal/sunrise-swims', image: suite, alt: 'A sunlit hotel bedroom with sea view' },
+  { date: '09.02.26', title: 'Our guide to the quiet side of the island', href: '/journal/quiet-island', image: breakfast, alt: 'Breakfast on a Mediterranean terrace' }
+];
+---
+<BaseLayout title="Journal" description="Thoughtful notes from the quieter side of the Aegean."><section class="page"><p class="eyebrow">NOTES FROM THE COAST</p><h1>Read slowly.</h1><p>Small observations on travel, food and the joy of staying put.</p></section><section class="section"><div class="journal-grid">{posts.map((post) => <a class="journal-card" href={post.href} data-reveal><div class="journal-card-image"><Image src={post.image} alt={post.alt} widths={[480,720,960]} sizes="(max-width: 760px) 100vw, 33vw" format="avif" loading="lazy" /></div><time>{post.date}</time><h2>{post.title}</h2><span class="small-link">Read the note &#8599;</span></a>)}</div></section></BaseLayout>

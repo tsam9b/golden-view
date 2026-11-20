@@ -1,0 +1,140 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, phoneHref, emailHref } from "../config/site";
+import { getLocale, useTranslations } from "../i18n/utils";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+<BaseLayout title={t("contact.title")} description={t("contact.description")}>
+  <section class="page">
+    <h1 style="padding-top: 4rem; text-align:center;">
+      {t("contact.heading")}
+    </h1>
+  </section>
+  <section class="section contact">
+    <div class="contact-cont">
+      <p class="eyebrow">{t("contact.eyebrow")}</p>
+      <h2>{t("contact.subheading")}</h2>
+      <p>{t("contact.intro")}</p>
+
+      <div class="contacts">
+        <div class="item flx" style="text-align: end;">
+          <div class="child">{t("contact.location")}</div>
+          <div class="child">{t("contact.locationValue")}<br>{t("contact.locationValue2")}<br>{t("contact.locationValue3")}</div>
+        </div>
+         <!-- <div class="item flx">
+          <div class="child"></div>
+          <div class="child">{t("contact.locationValue2")}</div>
+        </div> -->
+        <div class="item flx">
+          <div class="child">{t("contact.email")}</div>
+          <div class="child">
+            <a href={emailHref}>
+              {site.email}
+            </a>
+          </div>
+        </div>
+        <div class="item flx">
+          <div class="child">{t("contact.phone")}</div>
+          <div class="child">
+            <a href={phoneHref}>{site.phone}</a>
+          </div>
+        </div>
+        <div class="item flx">
+          <div class="child">{t("contact.hours")}</div>
+          <div class="child">
+            {t("contact.hoursValue")}
+          </div>
+        </div>
+        <!-- <div class="item flx">
+          <div class="child">EOT/ΜΗΤΕ:</div>
+          <div class="child">{site.eot}</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="box">
+      <form id="contact-form" action="/contact.php" method="post">
+        <input type="hidden" name="lang" value={locale} />
+        <input
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          style="position:absolute;left:-9999px;"
+        />
+        <label>
+          {t("contact.name")}
+          <input
+            name="name"
+            autocomplete="name"
+            required
+            placeholder={t("contact.namePlaceholder")}
+          />
+        </label>
+        <label>
+          {t("contact.emailLabel")}
+          <input
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            placeholder="you@example.com"
+          />
+        </label>
+        <label>
+          {t("contact.message")}
+          <textarea
+            name="message"
+            rows="5"
+            required
+            placeholder={t("contact.messagePlaceholder")}
+          ></textarea>
+        </label>
+        <button class="btn" type="submit">{t("contact.send")} &#8599;</button>
+        <p class="form-note">{t("contact.note")}</p>
+      </form>
+      <noscript>
+        <p class="form-note">
+          {t("contact.noscript")}
+          <a href={emailHref}>{site.email}</a>.
+        </p>
+      </noscript>
+    </div>
+  </section>
+
+  <div
+    class="toast"
+    id="contact-toast"
+    role="status"
+    aria-live="polite"
+    data-sent={t("contact.sent")}
+    data-error={t("contact.error")}
+  >
+    <span class="toast-text"></span>
+    <button class="toast-close" type="button" aria-label="Close">&times;</button>
+  </div>
+
+  <script>
+    const toast = document.querySelector<HTMLElement>("#contact-toast");
+    const url = new URL(window.location.href);
+    const status = url.searchParams.get("status");
+
+    if (toast && (status === "sent" || status === "error")) {
+      const text = toast.querySelector<HTMLElement>(".toast-text");
+      if (text) text.textContent = (status === "sent" ? toast.dataset.sent : toast.dataset.error) ?? "";
+      toast.classList.toggle("is-error", status === "error");
+      requestAnimationFrame(() => toast.classList.add("is-visible"));
+
+      const hide = () => toast.classList.remove("is-visible");
+      toast.querySelector(".toast-close")?.addEventListener("click", hide);
+      setTimeout(hide, status === "sent" ? 6000 : 10000);
+
+      // Drop ?status so a refresh doesn't show the toast again
+      url.searchParams.delete("status");
+      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    }
+  </script>
+</BaseLayout>

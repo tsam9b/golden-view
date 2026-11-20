@@ -1,0 +1,55 @@
+﻿---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Features from "../components/Features.astro";
+import Description from "../components/Description.astro";
+import Services from "../components/Services.astro";
+import Rooms from "../components/Rooms.astro";
+import ContactBanner from "../components/ContactBanner.astro";
+import Map from "../components/Map.astro";
+import SlideShow from "../components/SlideShow.astro";
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+import ImageText from "../components/ImageText.astro";
+import IntroText from "../components/IntroText.astro";
+import { theme } from "../config/theme";
+import { site } from "../config/site";
+import textImage from "../assets/features/cortile-bar-1000x570.jpg";
+
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+
+---
+
+<BaseLayout
+  title={t("home.title")}
+  description={t("home.description")}
+  headerBg={false}
+>
+
+  <SlideShow scrollTo="room" />
+  <Rooms id="room" showTitle={true} size="sm" horizontalPadding="250px" />
+  
+  <!-- <Features showTitle={true} horizontalPadding="150px" /> -->
+  <div class="pt-2">
+    <ImageText
+      image={textImage}
+      eyebrow="Golden View Studios | Vlycha Beach, Lindos"
+      title="Golden View Studios"
+      text="On the east coast of Rhodes in the village of Vlycha near beautiful Lindos, these standard and executive studio apartments offer the space and location for a relaxing holiday. Free WiFi access is available in all units and in the shared lounge area. Newly constructed in 2002 the apartments are situated near one of the most popular towns of the island. The accommodation is only 1 km from the sandy beach with its uninterrupted views of the Aegean Sea; the ideal setting for a swim. You will be only 2 km from Lindos Town and 45 km from Rhodes Town. The main road is 50 m from the studio complex, so you can reach other island destinations by taxi or bus."
+      buttonText="Our Rooms"
+      buttonLink="/rooms"
+    />
+  </div>
+  <Services />
+  <div id="about-us">
+    <!-- <IntroText /> -->
+    <Features showTitle={true} horizontalPadding="150px" />
+  </div>
+  <div id="contact-us">
+    <ContactBanner />
+  </div>
+  <section class="section">
+    <Map location={site.mapCoords} title={t("map.title")} height={theme.mapHeight} zoom={15} />
+  </section>
+
+</BaseLayout>

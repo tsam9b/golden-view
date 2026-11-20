@@ -1,0 +1,38 @@
+---
+import { locales, defaultLocale } from "../../i18n/ui";
+import { rooms } from "../../data/rooms";
+import RoomPage from "../rooms/[slug].astro";
+
+// Renders every top-level page (and room pages) under each non-default locale prefix.
+const pages = import.meta.glob<{ default: any }>("../*.astro", { eager: true });
+
+export function getStaticPaths() {
+  const skip = new Set(["404", "index_og"]);
+  const slugs = Object.keys(
+    import.meta.glob("../*.astro"),
+  )
+    .map((path) => path.replace("../", "").replace(".astro", ""))
+    .filter((name) => !skip.has(name));
+  const routes = [];
+  for (const lang of locales.filter((l) => l !== defaultLocale)) {
+    for (const name of slugs) {
+      routes.push({
+        params: { lang, slug: name === "index" ? undefined : name },
+        props: { page: name },
+      });
+    }
+    for (const item of rooms) {
+      routes.push({
+        params: { lang, slug: `rooms/${item.slug}` },
+        props: { page: "room-item", room: item },
+      });
+    }
+  }
+  return routes;
+}
+
+const { page, room } = Astro.props;
+const Page = page === "room-item" ? RoomPage : pages[`../${page}.astro`].default;
+---
+
+<Page room={room} />

@@ -1,0 +1,54 @@
+---
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+import RoomCard from "./RoomCard.astro";
+import { rooms } from "../data/rooms";
+import { getRoomMainImage } from "../data/rooms-gallery";
+
+interface Props {
+  exclude?: string;
+  showTitle: boolean;
+  size?: "sm" | "md" | "lg";
+  horizontalPadding?: string;
+  id?: string;
+}
+
+const { exclude, size = "lg", showTitle = true, horizontalPadding = "120px", id } = Astro.props;
+
+const visibleRooms = rooms.filter(
+  (item) => item.slug !== exclude
+);
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+<section class="section" id={id} style={`padding: 50px min(${horizontalPadding}, 7vw);`}>
+  {showTitle && (
+    <div class="section-head" style="text-align: center; margin: 0 auto; padding:30px;">
+      <div style="text-align: center; margin: 0 auto;">
+        <p class="eyebrow">{t("room.eyebrow")}</p>
+        <h2>{t("room.heading")}</h2>
+      </div>
+
+      {visibleRooms.length < rooms.length && (
+        <a class="small-link" href={localizePath(locale, "/room")}>
+          {t("room.seeAll")} &#8599;
+        </a>
+      )}
+    </div>
+  )}
+
+  <div class="rooms" data-size={size} data-reveal>
+    {visibleRooms.map((item) => (
+      <RoomCard
+        href={localizePath(locale, `/rooms/${item.slug}`)}
+        image={getRoomMainImage(item.slug) ?? item.image}
+        imageAlt={`${item.title} ${item.description}`}
+        title={item.title}
+        description={item.description}
+        classes={item.classes}
+        size={size}
+      />
+    ))}
+  </div>
+</section>

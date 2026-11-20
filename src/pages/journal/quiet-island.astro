@@ -1,0 +1,6 @@
+﻿---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import breakfast from '../../assets/breakfast.png';
+---
+<BaseLayout title="Our guide to the quiet side of the island" description="A slower guide to the island beyond the usual routes."><article><section class="article-hero"><Image src={breakfast} alt="Breakfast on a quiet sea-view terrace" widths={[768,1200,1600]} sizes="100vw" format="avif" loading="eager" /><div><p class="eyebrow">ISLAND NOTES · 09.02.26</p><h1>Our guide to the quiet side of the island.</h1><p>A few places worth keeping unhurried.</p></div></section><section class="section prose"><p>The quieter side is not marked on a map. It begins just beyond the first turn you do not take, in the bakery that opens early and the beach where lunch runs long.</p><h2>Follow the shade</h2><p>Set out before the heat. Take the small road through the olives and stop where the sea suddenly appears. The island always rewards a little wandering.</p></section></article></BaseLayout>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getLocale, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<BaseLayout title={t("policies.title")} description={t("policies.description")}>
+  <section class="page">
+    <h1 style="padding-top: 4rem; text-align:center;">
+      {t("policies.title")}
+    </h1>
+  </section>
+
+  <section class="policies" style="padding-top: 4rem; text-align:center;">
+    <div>
+      <p><strong>{t("policies.cancellation")}</strong></p>
+      <ul>
+        <li>{t("policies.cancellation.1")}</li>
+        <li>{t("policies.cancellation.2")}</li>
+        <li>{t("policies.cancellation.3")}</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p>
+        <strong>{t("policies.prepayment")}</strong>&nbsp;{t("policies.prepayment.text")}
+      </p>
+      <p>&nbsp;</p>
+      <p><strong>{t("policies.pets")}</strong>&nbsp;{t("policies.pets.text")}</p>
+      <p>&nbsp;</p>
+      <p>
+        <strong>{t("policies.cards")}</strong>&nbsp;{t("policies.cards.text")}
+      </p>
+      <div>
+        <p>{t("policies.cards.note")}</p>
+      </div>
+      <p>&nbsp;</p>
+      <p>
+        <strong>{t("policies.dayTrips")}</strong>&nbsp;{t("policies.dayTrips.text")}
+      </p>
+      <p>&nbsp;</p>
+      <p><strong>{t("policies.longer")}</strong></p>
+      <p>{t("policies.longer.notIncluded")}</p>
+      <ul>
+        <li>{t("policies.longer.fuel")}</li>
+        <li>{t("policies.longer.food")}</li>
+        <li>{t("policies.longer.dock")}</li>
+      </ul>
+      <p>{t("policies.longer.contact")}</p>
+    </div>
+  </section>
+</BaseLayout>

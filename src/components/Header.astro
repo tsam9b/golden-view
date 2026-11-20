@@ -1,0 +1,59 @@
+﻿---
+import { Image } from "astro:assets";
+import { site } from "../config/site";
+import headerBg from "../assets/gallery/3-1900x1124.jpg";
+
+interface Props {
+  bgImage?: boolean;
+}
+const { bgImage = true } = Astro.props;
+import { menu } from "../data/menu";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import type { UiKey } from "../i18n/ui";
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+{bgImage && <style is:global set:html={`:root{--header-bg:url(${headerBg.src})}`} />}
+<header class:list={["header", { "has-bg": bgImage }]}>
+    <a class="brand" href={localizePath(locale, "/")}>
+        <Image
+            src={site.logo}
+            alt={site.name}
+            format="png"
+            loading="eager"
+            width={160}
+        />
+    </a><nav>
+    
+    {menu
+  .filter(({ locations }) => locations.includes("header"))
+  .map(({ section, href, classes, target }) => (
+    <a href={localizePath(locale, href)} target={target} class={classes?.join(" ")}>{t(`nav.${section}` as UiKey)}</a>
+  ))}
+    <LanguageSwitcher />
+
+  </nav><a class="reserve" href={localizePath(locale, "/contact")}>{t("header.reserve")} &#8599;</a><button
+    aria-label={t("header.openMenu")}
+    aria-expanded="false"
+    data-open={t("header.openMenu")}
+    data-close={t("header.close")}
+    class="menu"><span></span><span></span><span></span></button>
+</header><script>
+  document.querySelector<HTMLButtonElement>(".menu")?.addEventListener("click", (e) => {
+    const h = document.querySelector(".header");
+    const button = e.currentTarget as HTMLButtonElement | null;
+
+    h?.classList.toggle("open");
+    if (!button) return;
+
+    const isOpen = h?.classList.contains("open") ?? false;
+    button.setAttribute("aria-expanded", String(isOpen));
+    button.setAttribute(
+      "aria-label",
+      (isOpen ? button.dataset.close : button.dataset.open) ?? "Menu",
+    );
+  });
+</script>

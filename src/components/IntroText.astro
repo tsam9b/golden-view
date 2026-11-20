@@ -1,0 +1,42 @@
+---
+import { getLocale, localizePath, useTranslations } from "../i18n/utils";
+
+interface Props {
+  showTitle?: boolean;
+  horizontalPadding?: string;
+}
+
+const {
+  showTitle = true,
+  horizontalPadding = "120px",
+} = Astro.props;
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+  
+  <section class="section" style={`padding: 50px min(${horizontalPadding}, 7vw);`}>
+    {showTitle && (
+    <div class="section-head" style="text-align: center; margin: 0 auto; ">
+      <div style="text-align: center; margin: 0 auto;">
+        <p class="eyebrow-2">{t("introText.eyebrow")}</p>
+        <h2>{t("introText.heading")}</h2>
+        <p class="intro-text-details">{t("introText.details")}</p>
+      </div>
+    </div>
+    )}
+  </section>
+
+
+<style>
+  .intro-text--centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .intro-text--centered h2 {
+    text-align: center;
+  }
+</style>
