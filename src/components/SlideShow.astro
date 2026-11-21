@@ -6,18 +6,13 @@ import { theme } from "../config/theme";
 
 const t = useTranslations(getLocale(Astro.currentLocale));
 const { scrollTo } = Astro.props as { scrollTo?: string };
-const modules = import.meta.glob<{ default: ImageMetadata }>(
-  "../assets/gallery/*.{jpg,jpeg,png,webp,avif}",
-  { eager: true },
-);
-
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "../assets/gallery/*.{jpg,jpeg,png,webp,avif}",
+  "../assets/slideshow/*.{jpg,jpeg,png,webp,avif}",
   { eager: true }
 );
 
 const slides = site.slideshow
-  .map((name) => images[`../assets/gallery/${name}`]?.default)
+  .map((name) => images[`../assets/slideshow/${name}`]?.default)
   .filter((img): img is ImageMetadata => Boolean(img));
 
 const isStatic = theme.hero.mode === "static";
@@ -176,6 +171,7 @@ const shown = isStatic ? slides.slice(0, 1) : slides;
     let timer: number;
 
     const show = (n: number) => {
+      if (slides.length === 0) return;
       current = (n + slides.length) % slides.length;
       slides.forEach((s, i) => s.classList.toggle("active", i === current));
       dots.forEach((d, i) => d.classList.toggle("active", i === current));

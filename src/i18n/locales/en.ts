@@ -139,9 +139,11 @@ const en = {
   "rooms.description": "Explore our impressive room of rooms.",
   "rooms.heading": "~ Welcome to Rhodes ~",
   "rooms.intro1":
-    "The wide variety of motor rooms and sailing rooms we offer will fulfill any requirement you may have. Whether you want to have a nice boat trip for a couple of hours around the most beautiful bays of Rhodes or a day trip to any destination or small island near Rhodes, do not hesitate to contact us. We will be pleased to answer to all of your questions.",
+    "Golden View Studios, is a cozy hotel in Vlycha, near beautiful Lindos and are newly constructed in 2002. Lindos is one of the most popular towns of the island of Rhodes. Golden View Studios offer a breathtaking view of the Aegean sea with its undisturbed, all sand beach, that is the ideal setting for a quite, cheap and relaxed holiday.",
   "rooms.intro2":
-    "If you are already in Rhodes, we can arrange a meeting to make a presentation about our rooms at your hotel free of charge. You can call us for free on Viber or WhatsApp tel.: +30 697 784 1662.",
+    "All Standard Studios come with private facilities: kitchenette for self catering accommodations, Direct dial phone, radio, and all have a view of the sea, while Executive Studios are much larger, more comfortable and also equipped with TV.",
+  "rooms.intro3":
+    "Our cleaning staff change the towels and linens, and service the rooms three times a week. Air Conditioning is included without extra cost in all rooms.",
   "rooms.location": "Location",
   "rooms.locationValue": "Rhodes island, Greece",
   "rooms.phone": "Phone",
@@ -205,18 +207,29 @@ const en = {
   "policies.title": "Policies",
   "policies.description":
     "Cancellation, pre-payment, accepted cards and trip conditions.",
-  "policies.cancellation": "CANCELLATION:",
+  "policies.cancellation": "Cancellation:",
   "policies.cancellation.1":
-    "If cancelled up to 7 days before date of arrival, no fee will be charged.",
+    "If cancelled up to 14 days before date of arrival, no fee will be charged.",
   "policies.cancellation.2":
     "If cancelled or modified later, 50 percent of the total price of the reservation will be charged.",
   "policies.cancellation.3": "In case of no-show, the total price will be charged.",
-  "policies.prepayment": "PRE-PAYMENT:",
-  "policies.prepayment.text": "The deposit is 20% of the total price.",
-  "policies.pets": "PETS:",
-  "policies.pets.text": "On Request.",
-  "policies.cards": "ACCEPTED CREDIT CARDS:",
-  "policies.cards.text": "Visa, MasterCard, American Express, Amex.",
+  "policies.cancellation.4": "In case of non refundable option if cancelled, modified or no-show, 100 percent of the total price of the reservation will be charged.",
+  
+  "policies.extraBeds": "Children and extra beds:",
+  "policies.extraBeds.1": "<strong>Free!</strong> One child under 3 years stays free of charge and uses baby cot.",
+  "policies.extraBeds.2": "Children aged 2 years and above are considered adults at this property. When booking you should choose our Executive Studio for 3 adults.",
+  "policies.extraBeds.3": "The maximum number of extra beds/children’s cots permitted in a room is 1.",
+  
+  "policies.prepayment": "Prepayment:",
+  "policies.prepayment.text": "The total price of the reservation will be charged on the day of booking.",
+  "policies.checkin": "Check-in:",
+  "policies.checkin.text": "From 13:00 hours",
+  "policies.checkout": "Check-out:",
+  "policies.checkout.text": "Until 11:00 hours",
+  "policies.pets": "Pets:",
+  "policies.pets.text": " Pets are not allowed.",
+  "policies.cards": "Accepted credit cards:",
+  "policies.cards.text": " Golden View Studios accepts these cards and reserves the right to pre-authorise your card prior to arrival: Visa / Mastercard / Diners Club International",
   "policies.cards.note":
     "Rhodes Room Owners accepts these cards and reserves the right to pre-authorise your card prior the arrival.",
   "policies.dayTrips": "DAY TRIPS:",

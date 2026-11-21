@@ -1,0 +1,58 @@
+export const palettes = {
+  classic: {
+    primary: "#10253b",
+    light: "#f3eee5",
+    accent: "#b89055",
+    surface: "#fffdf9",
+    border: "#c8c8c4",
+    blue: "#1e73be",
+    blueDark: "#15578e",
+  },
+  ocean: {
+    primary: "#0b3954",
+    light: "#e6f1f4",
+    accent: "#2a9d8f",
+    surface: "#fafdfe",
+    border: "#bcd0d6",
+    blue: "#1e73be",
+    blueDark: "#15578e",
+  },
+  sunset: {
+    primary: "#1f1218",
+    light: "#f8ebe0",
+    accent: "#d66e13",
+    surface: "#fffaf5",
+    border: "#dcc8bb",
+    blue: "#1e73be",
+    blueDark: "#15578e",
+  },
+  forest: {
+    primary: "#1c3328",
+    light: "#eceee4",
+    accent: "#a68a45",
+    surface: "#fbfcf7",
+    border: "#c6cabb",
+    blue: "#1e73be",
+    blueDark: "#15578e",
+  },
+  midnight: {
+    primary: "#0d1321",
+    light: "#e8eaf0",
+    accent: "#c92727",
+    surface: "#f8f9fc",
+    border: "#c4c8d4",
+    blue: "#1e73be",
+    blueDark: "#15578e",
+  },
+  rose: {
+    primary: "#2d2a3e",
+    light: "#f6e9e9",
+    accent: "#c06c84",
+    surface: "#fffafa",
+    border: "#dbc6c9",
+    blue: "#1e73be",
+    blueDark: "#15578e",
+  },
+} as const;
+
+export type PaletteName = keyof typeof palettes;

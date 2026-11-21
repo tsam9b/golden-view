@@ -1,6 +1,63 @@
 ﻿---
-import BaseLayout from '../layouts/BaseLayout.astro'; const title='Rooms & Suites';
-const rooms=[['The Horizon Suite','48 m² · Sea-facing · King bed','€420','/rooms/horizon-suite'],['The Courtyard Room','32 m² · Garden-facing · King bed','€320','/rooms/courtyard-room'],['The Pool House','62 m² · Private pool · King bed','€560','/rooms/pool-house']];
----
-<BaseLayout title={title} description="Three distinct ways to settle into MotionHotel."><section class="page"><p class="eyebrow">SLEEP DEEPLY</p><h1>{title}</h1><p>Honest materials, soft light, and a view that knows when to be quiet.</p></section><section class="section"><div class="rooms">{rooms.map(([name,details,rate,href])=><a class="room" href={href}><i>FROM {rate} / NIGHT</i><h2>{name}</h2><small>{details}</small></a>)}</div></section></BaseLayout>
+import Rooms from "../components/Rooms.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, phoneHref, emailHref } from "../config/site";
+import { getLocale, useTranslations } from "../i18n/utils";
 
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+<BaseLayout
+  title={t("rooms.title")}
+  description={t("rooms.description")}
+  >
+  <section class="page">
+    <h1 style="padding-top: 4rem; text-align:center;">{t("rooms.heading")}</h1>
+  </section>
+
+  <section class="section room-intro">
+    <div class="room-intro-copy">
+      <p>{t("rooms.intro1")}</p>
+      <p>{t("rooms.intro2")}</p>
+      <p>{t("rooms.intro3")}</p>
+    </div>
+
+    <aside class="room-contact">
+      <div class="room-contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" />
+          <path d="M9 4v14M15 6v14" />
+          <circle cx="12" cy="8" r="2.5" />
+        </svg>
+        <div>
+          <span>{t("rooms.location")}</span>
+          <p>{t("rooms.locationValue")}</p>
+        </div>
+      </div>
+      <div class="room-contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="7" y="2" width="10" height="20" rx="2" />
+          <path d="M11 18h2" />
+        </svg>
+        <div>
+          <span>{t("rooms.phone")}</span>
+          <p><a href={phoneHref}>{site.phone}</a></p>
+        </div>
+      </div>
+      <div class="room-contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M22 2L2 10l8 3 3 8z" />
+          <path d="M22 2L10 13" />
+        </svg>
+        <div>
+          <span>{t("rooms.email")}</span>
+          <p><a href={emailHref}>{site.email}</a></p>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+    <Rooms 
+      showTitle={true}
+      horizontalPadding="250px"
+    />
+</BaseLayout>

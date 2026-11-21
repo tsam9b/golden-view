@@ -1,0 +1,396 @@
+---
+import { rooms } from "../data/rooms";
+
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const dateValue = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+---
+
+<aside class="booking-widget" data-booking-widget aria-labelledby="booking-title">
+  <div class="booking-widget__panel">
+    <form
+      class="booking-widget__form"
+      action="/contact.php"
+      method="post"
+      data-booking-search
+    >
+      <div data-booking-search-stage>
+        <header class="booking-widget__header">
+          <h2 id="booking-title">Search Rooms</h2>
+          <p>Start booking</p>
+        </header>
+
+        <div class="booking-widget__dates">
+          <label class="booking-widget__date">
+            <span>Check-in</span>
+            <strong data-checkin-display></strong>
+            <input
+              type="date"
+              name="checkin"
+              value={dateValue(today)}
+              min={dateValue(today)}
+              required
+              data-checkin
+            />
+          </label>
+          <label class="booking-widget__date">
+            <span>Check-out</span>
+            <strong data-checkout-display></strong>
+            <input
+              type="date"
+              name="checkout"
+              value={dateValue(tomorrow)}
+              min={dateValue(tomorrow)}
+              required
+              data-checkout
+            />
+          </label>
+        </div>
+
+        <label class="booking-widget__field">
+          <span class="booking-widget__sr-only">Guests</span>
+          <select name="guests" data-guests>
+            {Array.from({ length: 6 }, (_, index) => index + 1).map((guests) => (
+              <option value={guests} selected={guests === 2}>
+                Adults: {guests}{guests === 2 ? ", Children: 1" : ""}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label class="booking-widget__field">
+          <span class="booking-widget__sr-only">Room</span>
+          <select name="room" data-room>
+            {rooms.map((room) => (
+              <option value={room.title}>{room.title}</option>
+            ))}
+          </select>
+        </label>
+
+        <button class="booking-widget__submit" type="button" data-check-availability>
+          Check availability
+        </button>
+      </div>
+
+      <div class="booking-widget__request" data-booking-request-stage hidden>
+        <header class="booking-widget__header">
+          <h2>Search Rooms</h2>
+          <p>Request availability</p>
+        </header>
+
+        <div class="booking-widget__name-grid">
+          <label>
+            <span>First name</span>
+            <input type="text" name="first_name" autocomplete="given-name" required />
+          </label>
+          <label>
+            <span>Last name</span>
+            <input type="text" name="last_name" autocomplete="family-name" required />
+          </label>
+        </div>
+
+        <div class="booking-widget__name-grid">
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span>Phone</span>
+            <input type="tel" name="phone" autocomplete="tel" />
+          </label>
+        </div>
+
+        <label class="booking-widget__summary">
+          <span class="booking-widget__sr-only">Booking request</span>
+          <textarea name="message" rows="4" data-booking-summary required></textarea>
+        </label>
+
+        <button class="booking-widget__submit" type="submit">Submit request</button>
+        <button class="booking-widget__back" type="button" data-booking-back>
+          Go back
+        </button>
+      </div>
+    </form>
+  </div>
+</aside>
+
+<script>
+  const dateToValue = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const formatDate = (value: string) =>
+    new Intl.DateTimeFormat(document.documentElement.lang || "en", {
+      day: "numeric",
+      month: "short",
+    }).format(new Date(`${value}T12:00:00`));
+
+  document.querySelectorAll<HTMLElement>("[data-booking-widget]").forEach((widget) => {
+    const checkin = widget.querySelector<HTMLInputElement>("[data-checkin]");
+    const checkout = widget.querySelector<HTMLInputElement>("[data-checkout]");
+    const checkinDisplay = widget.querySelector<HTMLElement>("[data-checkin-display]");
+    const checkoutDisplay = widget.querySelector<HTMLElement>("[data-checkout-display]");
+    const guests = widget.querySelector<HTMLSelectElement>("[data-guests]");
+    const room = widget.querySelector<HTMLSelectElement>("[data-room]");
+    const searchStage = widget.querySelector<HTMLElement>("[data-booking-search-stage]");
+    const requestStage = widget.querySelector<HTMLElement>("[data-booking-request-stage]");
+    const summary = widget.querySelector<HTMLTextAreaElement>("[data-booking-summary]");
+
+    if (!checkin || !checkout) return;
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    checkin.min = dateToValue(today);
+    checkout.min = dateToValue(tomorrow);
+
+    const updateDateDisplay = (
+      input: HTMLInputElement,
+      display: HTMLElement | null,
+    ) => {
+      if (!display || !input.value) return;
+      const date = new Date(`${input.value}T12:00:00`);
+      display.innerHTML =
+        `${date.getDate()} ` +
+        `<small>${new Intl.DateTimeFormat(document.documentElement.lang || "en", { month: "short" }).format(date)}</small>`;
+    };
+
+    updateDateDisplay(checkin, checkinDisplay);
+    updateDateDisplay(checkout, checkoutDisplay);
+
+    checkin.addEventListener("change", () => {
+      if (!checkin.value) return;
+      const nextDay = new Date(`${checkin.value}T12:00:00`);
+      nextDay.setDate(nextDay.getDate() + 1);
+      checkout.min = dateToValue(nextDay);
+      if (!checkout.value || checkout.value < checkout.min) {
+        checkout.value = checkout.min;
+      }
+      updateDateDisplay(checkin, checkinDisplay);
+      updateDateDisplay(checkout, checkoutDisplay);
+    });
+
+    checkout.addEventListener("change", () => {
+      updateDateDisplay(checkout, checkoutDisplay);
+    });
+
+    widget.querySelector("[data-check-availability]")?.addEventListener("click", () => {
+      if (!widget.querySelector<HTMLFormElement>("[data-booking-search]")?.reportValidity()) return;
+
+      if (searchStage && requestStage && summary) {
+        const guestCount = guests?.value ?? "2";
+        const selectedRoom = room?.value ?? "";
+        summary.value =
+          `Could you please inform me about availability and prices for ${guestCount} Adults, ` +
+          `Children from ${formatDate(checkin.value)} to ${formatDate(checkout.value)} ` +
+          `for ${selectedRoom}.`;
+        searchStage.hidden = true;
+        requestStage.hidden = false;
+      }
+    });
+
+    widget.querySelector("[data-booking-back]")?.addEventListener("click", () => {
+      if (searchStage && requestStage) {
+        requestStage.hidden = true;
+        searchStage.hidden = false;
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  .booking-widget {
+    width: 370px;
+    max-width: none;
+    position: absolute;
+    inset: auto;
+    z-index: 20;
+    top: 158px;
+    right: clamp(24px, 19vw, 370px);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--navy);
+    overflow: visible;
+  }
+
+  .booking-widget__panel {
+    position: relative;
+    padding: 30px 32px 32px;
+    background: var(--white);
+    box-shadow: 0 18px 50px rgba(16, 37, 59, 0.18);
+  }
+
+  .booking-widget__header {
+    margin: 0 0 18px;
+    text-align: center;
+  }
+
+  .booking-widget__header h2 {
+    margin: 0;
+    font: 400 30px/1.15 var(--serif);
+  }
+
+  .booking-widget__header p {
+    margin: 4px 0 0;
+    color: var(--blue);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .booking-widget__dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0 0 16px;
+    padding: 16px 0 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .booking-widget__date {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .booking-widget__date > span {
+    margin-bottom: 8px;
+    color: var(--blue);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .booking-widget__date strong {
+    color: var(--navy);
+    font: 400 46px/0.95 var(--serif);
+    white-space: nowrap;
+  }
+
+  .booking-widget__date strong small {
+    margin-left: 5px;
+    font: 400 13px/1 var(--sans);
+  }
+
+  .booking-widget__date input {
+    position: absolute;
+    inset: 22px 0 0;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .booking-widget__field,
+  .booking-widget__summary {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .booking-widget__field select,
+  .booking-widget__name-grid input,
+  .booking-widget__summary textarea {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--white);
+    color: var(--navy);
+    font: inherit;
+  }
+
+  .booking-widget__field select {
+    padding: 0 12px;
+  }
+
+  .booking-widget__submit {
+    width: 100%;
+    min-height: 46px;
+    border: 0;
+    background: var(--blue);
+    color: var(--white);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .booking-widget__submit:hover,
+  .booking-widget__submit:focus-visible {
+    background: var(--blue-dark);
+  }
+
+  .booking-widget__name-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .booking-widget__name-grid label {
+    display: grid;
+    gap: 5px;
+  }
+
+  .booking-widget__name-grid label > span {
+    color: var(--blue);
+    font-size: 12px;
+  }
+
+  .booking-widget__name-grid input {
+    padding: 8px 10px;
+  }
+
+  .booking-widget__summary textarea {
+    padding: 12px;
+    resize: vertical;
+  }
+
+  .booking-widget__back {
+    display: block;
+    margin: 12px auto 0;
+    border: 0;
+    background: transparent;
+    color: var(--blue);
+    cursor: pointer;
+  }
+
+  .booking-widget__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @media (max-width: 760px) {
+    .booking-widget {
+      width: calc(100vw - 24px);
+      max-width: 370px;
+      top: 100px;
+      right: 12px;
+      margin: 0;
+    }
+
+    .booking-widget__panel {
+      padding-inline: 20px;
+    }
+
+    .booking-widget__name-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

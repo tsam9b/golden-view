@@ -24,7 +24,7 @@ const t = useTranslations(locale);
             alt={site.name}
             format="png"
             loading="eager"
-            width={160}
+            width={220}
         />
     </a><nav>
     
@@ -35,7 +35,11 @@ const t = useTranslations(locale);
   ))}
     <LanguageSwitcher />
 
-  </nav><a class="reserve" href={localizePath(locale, "/contact")}>{t("header.reserve")} &#8599;</a><button
+  </nav>
+  
+  <!-- <a class="reserve" href={localizePath(locale, "/contact")}>{t("header.reserve")} &#8599;</a> -->
+  
+  <button
     aria-label={t("header.openMenu")}
     aria-expanded="false"
     data-open={t("header.openMenu")}

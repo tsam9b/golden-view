@@ -1,12 +1,27 @@
 ﻿---
-import "../styles/palettes.css";
 import "../styles/global.css";
 import "../styles/theme.css";
 import { themeAttrs, themeStyle, themeColor, fontsUrl } from "../config/theme";
 import { site as brand } from "../config/site";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-const { title, description, noindex = false, headerBg = true } = Astro.props;
+import BookingWidget from "../components/BookingWidget.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  headerBg?: boolean;
+  bookingWidget?: boolean;
+}
+
+const {
+  title,
+  description,
+  noindex = false,
+  headerBg = true,
+  bookingWidget = true,
+} = Astro.props;
 const canonical = new URL(
   Astro.url.pathname,
   Astro.site ?? "https://motionhotel.example",
@@ -64,7 +79,7 @@ const site = Astro.site ?? "https://motionhotel.example";
       id="content"
     >
       <slot />
-    </main><Footer /><script>
+    </main><Footer />{bookingWidget && <BookingWidget />}<script>
       import { animate, inView } from "motion";
       if (
         !matchMedia("(prefers-reduced-motion: reduce)").matches &&

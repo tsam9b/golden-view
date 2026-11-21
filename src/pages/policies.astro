@@ -12,40 +12,39 @@ const t = useTranslations(getLocale(Astro.currentLocale));
     </h1>
   </section>
 
-  <section class="policies" style="padding-top: 4rem; text-align:center;">
+  <section class="policies" style="width:70%; padding-top: 4rem; text-align:left;margin: 0 auto;">
     <div>
       <p><strong>{t("policies.cancellation")}</strong></p>
       <ul>
         <li>{t("policies.cancellation.1")}</li>
         <li>{t("policies.cancellation.2")}</li>
         <li>{t("policies.cancellation.3")}</li>
+        <li>{t("policies.cancellation.4")}</li>
       </ul>
       <p>&nbsp;</p>
       <p>
         <strong>{t("policies.prepayment")}</strong>&nbsp;{t("policies.prepayment.text")}
       </p>
       <p>&nbsp;</p>
+ 
+      <p><strong>{t("policies.checkin")}</strong>&nbsp;{t("policies.checkin.text")}</p>
+      <p><strong>{t("policies.checkout")}</strong>&nbsp;{t("policies.checkout.text")}</p>
+      <p>&nbsp;</p>
+     
+      <div>
+        <p><strong>{t("policies.extraBeds")}</strong></p>
+        <ul>
+          <li set:html={t("policies.extraBeds.1")} />
+          <li>{t("policies.extraBeds.2")}</li>
+          <li>{t("policies.extraBeds.3")}</li>
+        </ul>
+      </div>
+      <p>&nbsp;</p>
       <p><strong>{t("policies.pets")}</strong>&nbsp;{t("policies.pets.text")}</p>
       <p>&nbsp;</p>
       <p>
         <strong>{t("policies.cards")}</strong>&nbsp;{t("policies.cards.text")}
       </p>
-      <div>
-        <p>{t("policies.cards.note")}</p>
-      </div>
-      <p>&nbsp;</p>
-      <p>
-        <strong>{t("policies.dayTrips")}</strong>&nbsp;{t("policies.dayTrips.text")}
-      </p>
-      <p>&nbsp;</p>
-      <p><strong>{t("policies.longer")}</strong></p>
-      <p>{t("policies.longer.notIncluded")}</p>
-      <ul>
-        <li>{t("policies.longer.fuel")}</li>
-        <li>{t("policies.longer.food")}</li>
-        <li>{t("policies.longer.dock")}</li>
-      </ul>
-      <p>{t("policies.longer.contact")}</p>
     </div>
   </section>
 </BaseLayout>

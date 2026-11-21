@@ -1,0 +1,78 @@
+import type { DeepPartial, Theme } from "./types";
+
+export const presets = {
+  classic: {},
+  modern: {
+    palette: "midnight",
+    fonts: "modern",
+    radius: "soft",
+    button: "outline",
+    cards: { shadow: "soft", aspect: "4/3" },
+    header: { style: "solid", sticky: true, logo: "left" },
+    headings: { transform: "none", tracking: "tight", weight: 600 },
+  },
+  elegant: {
+    palette: "rose",
+    fonts: "elegant",
+    spacing: "spacious",
+    container: "default",
+    headings: { transform: "uppercase", tracking: "wide", weight: 500 },
+    button: "ghost",
+    imageFilter: "warm",
+  },
+  nautical: {
+    palette: "ocean",
+    fonts: "friendly",
+    radius: "round",
+    cards: { shadow: "strong", aspect: "16/9" },
+    roomColumns: 2,
+    header: { style: "transparent", sticky: true, logo: "center" },
+  },
+  luxury: {
+    palette: "midnight",
+    fonts: "elegant",
+    mode: "dark",
+    spacing: "spacious",
+    container: "default",
+    headings: { transform: "uppercase", tracking: "wide", weight: 500 },
+    button: "outline",
+    header: { style: "transparent", sticky: true, logo: "center" },
+    hero: { overlay: 0.6, height: "full", autoplay: true, intervalMs: 7000 },
+    imageFilter: "muted",
+    roomColumns: 2,
+  },
+  minimal: {
+    palette: "classic",
+    fonts: "modern",
+    spacing: "compact",
+    container: "narrow",
+    button: "ghost",
+    radius: "none",
+    hero: { overlay: 0.3, height: "medium", mode: "static" },
+    cards: { shadow: "none", aspect: "4/3" },
+    roomColumns: 4,
+    footer: "minimal",
+    motion: "off",
+    homeSections: ["slideshow", "room", "intro", "contact"],
+  },
+  sunset: {
+    palette: "sunset",
+    fonts: "friendly",
+    radius: "pill",
+    button: "filled",
+    cards: { shadow: "soft", aspect: "1/1" },
+    imageFilter: "warm",
+    hero: { overlay: 0.4, height: "tall" },
+    homeSections: ["slideshow", "intro", "room", "features", "services", "contact", "map"],
+  },
+  night: {
+    palette: "midnight",
+    fonts: "modern",
+    mode: "dark",
+    radius: "soft",
+    hero: { overlay: 0.7 },
+  },
+} satisfies Record<string, DeepPartial<Theme>>;
+
+export type PresetName = keyof typeof presets;
+
