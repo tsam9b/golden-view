@@ -9,6 +9,7 @@ const t = useTranslations(getLocale(Astro.currentLocale));
 <BaseLayout
   title={t("rooms.title")}
   description={t("rooms.description")}
+
   >
   <section class="page">
     <h1 style="padding-top: 4rem; text-align:center;">{t("rooms.heading")}</h1>
@@ -59,5 +60,6 @@ const t = useTranslations(getLocale(Astro.currentLocale));
     <Rooms 
       showTitle={true}
       horizontalPadding="250px"
+      size="lg"
     />
 </BaseLayout>

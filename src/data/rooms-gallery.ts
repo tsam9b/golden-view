@@ -1,12 +1,6 @@
 import type { ImageMetadata } from "astro";
 import type { RoomItem } from "./rooms";
 
-const galleryFolderBySlug: Record<RoomItem["slug"], string> = {
-  "standard-studio": "image_1",
-  "executive-studio-2-adults": "image_2",
-  "executive-studio-3-adults": "image_3",
-};
-
 const fullImages = import.meta.glob<ImageMetadata>(
   "../assets/gallery/*/full/*",
   { eager: true, import: "default" },
@@ -22,12 +16,19 @@ const rootImages = import.meta.glob<ImageMetadata>(
   { eager: true, import: "default" },
 );
 
+const roomImages = import.meta.glob<ImageMetadata>(
+  "../assets/room/*/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true, import: "default" },
+);
+
 const sortByPath = ([pathA]: [string, ImageMetadata], [pathB]: [string, ImageMetadata]) =>
   pathA.localeCompare(pathB, undefined, { numeric: true, sensitivity: "base" });
 
 export function hasRoomGallery(slug: RoomItem["slug"]) {
-  const folder = galleryFolderBySlug[slug];
-  return Object.keys(fullImages).some((path) => path.startsWith(`../assets/gallery/${folder}/full/`));
+  const prefix = `../assets/room/${slug}/`;
+  return Object.keys(roomImages).some((path) =>
+    path.startsWith(prefix) && !path.includes("/background.")
+  );
 }
 
 export function getRootGalleryPhotos() {
@@ -40,55 +41,61 @@ export function getRootGalleryPhotos() {
 
 export function getFolderGalleryPhotos() {
   const full = Object.entries(fullImages).sort(sortByPath);
-  if (full.length === 0) {
-    throw new Error("Gallery folder images are missing from src/assets/gallery/*/full.");
+  const rooms = Object.entries(roomImages)
+    .filter(([path]) => !path.includes("/background."))
+    .sort(sortByPath);
+
+  if (full.length === 0 && rooms.length === 0) {
+    throw new Error("Gallery images are missing from src/assets/gallery and src/assets/room.");
   }
 
-  return full.map(([path, src]) => {
+  const galleryPhotos = full.map(([path, src]) => {
     const previewPath = path.replace("/full/", "/preview/");
     return {
       src,
       preview: previewImages[previewPath] ?? src,
     };
   });
+
+  const roomPhotos = rooms.map(([, src]) => ({
+    src,
+    preview: src,
+  }));
+
+  return [...galleryPhotos, ...roomPhotos];
 }
 
 export function getRoomMainImage(slug: RoomItem["slug"]) {
-  const folder = galleryFolderBySlug[slug];
-  const prefix = `../assets/gallery/${folder}/full/main.jpg`;
-
-  return fullImages[prefix];
+  const prefix = `../assets/room/${slug}/main.`;
+  return Object.entries(roomImages).find(([path]) => path.startsWith(prefix))?.[1];
 }
 
+export function getRoomBackgroundImage(slug: RoomItem["slug"]) {
+  const prefix = `../assets/room/${slug}/background.`;
+  return Object.entries(roomImages).find(([path]) => path.startsWith(prefix))?.[1];
+}
 
 export function getRoomsGallery(slug: RoomItem["slug"]) {
-  const folder = galleryFolderBySlug[slug];
-  const prefix = `../assets/gallery/${folder}/`;
-  const full = Object.entries(fullImages)
-    .filter(([path]) => path.startsWith(`${prefix}full/`))
+  const prefix = `../assets/room/${slug}/`;
+  const images = Object.entries(roomImages)
+    .filter(([path]) =>
+      path.startsWith(prefix) && !path.includes("/background.")
+    )
     .sort(sortByPath);
   const mainImage = getRoomMainImage(slug);
+  const backgroundImage = getRoomBackgroundImage(slug);
 
-  if (full.length === 0) {
+  if (images.length === 0) {
     console.warn(`Gallery images are missing for room item "${slug}"; omitting its gallery.`);
   }
 
-  const photos = full
-    .filter(([path]) => !path.endsWith("/main.jpg"))
-    .map(([path, src]) => {
-      const filename = path.slice(path.lastIndexOf("/") + 1);
-      return {
-        src,
-        preview: previewImages[`${prefix}preview/${filename}`] ?? src,
-      };
-    });
+  const photos = images
+    .filter(([path]) => !path.includes("/main."))
+    .map(([, src]) => ({ src, preview: src }));
 
   if (mainImage) {
-    photos.unshift({
-      src: mainImage,
-      preview: previewImages[`${prefix}preview/main.jpg`] ?? mainImage,
-    });
+    photos.unshift({ src: mainImage, preview: mainImage });
   }
 
-  return { mainImage, photos };
+  return { mainImage, backgroundImage, photos };
 }

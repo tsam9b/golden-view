@@ -20,7 +20,7 @@ const {
   description,
   noindex = false,
   headerBg = true,
-  bookingWidget = true,
+  bookingWidget = false,
 } = Astro.props;
 const canonical = new URL(
   Astro.url.pathname,
@@ -59,7 +59,7 @@ const site = Astro.site ?? "https://motionhotel.example";
       content="website"
     /><meta
       property="og:title"
-      content={`${title} | The Cellar Project`}
+      content={`${title} | Golden Views Studios`}
     /><meta property="og:description" content={description} /><meta
       property="og:url"
       content={canonical}

@@ -134,7 +134,7 @@ if (is_array($config)) {
 } else {
     // Fallback when no SMTP config is present
     $headers = implode("\r\n", array(
-        'From: The Cellar Project <no-reply@thecellarproject.gr>',
+        'From: Golden Views Studios <no-reply@thecellarproject.gr>',
         'Reply-To: ' . $safe_email,
         'Content-Type: text/plain; charset=UTF-8',
     ));

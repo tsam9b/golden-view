@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Rooms from "../../components/Rooms.astro";
+import BookingWidget from "../../components/BookingWidget.astro";
 import Reserve from "../../components/Reserve.astro";
 import { rooms } from "../../data/rooms";
 import { getRoomsGallery } from "../../data/rooms-gallery";
@@ -39,7 +40,7 @@ const gallery = roomsGallery.photos.map((photo, index) => ({
   <section class="suite-hero">
     <div class="suite-hero-image">
       <Image
-        src={roomsGallery.mainImage ?? room.image}
+        src={roomsGallery.backgroundImage ?? roomsGallery.mainImage ?? room.image}
         alt={room.slug}
         widths={[768, 1200, 1600]}
         sizes="100vw"
@@ -138,30 +139,12 @@ const gallery = roomsGallery.photos.map((photo, index) => ({
 
         <!-- Booking panel -->
         <aside class="detail-side">
-          <form class="book-card" action={localizePath(locale, "/contact")} method="get" data-booking-form>
-            <div class="booking-dates">
-              <label>
-                <span>Check-in</span>
-                <input type="date" name="checkin" required aria-label="Check-in date" />
-              </label>
-              <label>
-                <span>Check-out</span>
-                <input type="date" name="checkout" required aria-label="Check-out date" />
-              </label>
-            </div>
-            <label class="booking-guests">
-              <span>Travellers</span>
-              <select name="guests" aria-label="Number of travellers">
-                {Array.from({ length: room.guests }, (_, index) => index + 1).map((guests) => (
-                  <option value={guests} selected={guests === room.guests}>
-                    {guests === 1 ? "1 traveller" : `${guests} travellers`}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <input type="hidden" name="room" value={room.title} />
-            <button class="btn booking-submit" type="submit">{t("room.reserve")} now ↗</button>
-          </form>
+          <BookingWidget
+            room={room.title}
+            showRoomSelect={false}
+            color="var(--gold)"
+            placement="inline"
+          />
         </aside>
       </div>
 
@@ -171,6 +154,7 @@ const gallery = roomsGallery.photos.map((photo, index) => ({
           exclude={room.slug}
           showTitle={true}
           size="sm"
+          columns={2}
           horizontalPadding="250px"
         />
       </div>
@@ -178,37 +162,6 @@ const gallery = roomsGallery.photos.map((photo, index) => ({
   </section>
 
   <script>
-    const dateToValue = (date: Date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    };
-
-    document.querySelectorAll<HTMLFormElement>("[data-booking-form]").forEach((form) => {
-      const checkin = form.querySelector<HTMLInputElement>('input[name="checkin"]');
-      const checkout = form.querySelector<HTMLInputElement>('input[name="checkout"]');
-      if (!checkin || !checkout) return;
-
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      checkin.min = dateToValue(today);
-      checkin.value = dateToValue(today);
-      checkout.min = dateToValue(tomorrow);
-      checkout.value = dateToValue(tomorrow);
-
-      checkin.addEventListener("change", () => {
-        const nextDay = new Date(`${checkin.value}T12:00:00`);
-        nextDay.setDate(nextDay.getDate() + 1);
-        const minimumCheckout = dateToValue(nextDay);
-        checkout.min = minimumCheckout;
-        if (!checkout.value || checkout.value < minimumCheckout) {
-          checkout.value = minimumCheckout;
-        }
-      });
-    });
-
     document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((root) => {
       const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-slide]"));
       const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-thumb]"));

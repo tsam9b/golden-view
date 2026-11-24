@@ -8,11 +8,12 @@ interface Props {
   exclude?: string;
   showTitle: boolean;
   size?: "sm" | "md" | "lg";
+  columns?: number;
   horizontalPadding?: string;
   id?: string;
 }
 
-const { exclude, size = "lg", showTitle = true, horizontalPadding = "120px", id } = Astro.props;
+const { exclude, size = "lg", columns = 3, showTitle = true, horizontalPadding = "120px", id } = Astro.props;
 
 const visibleRooms = rooms.filter(
   (item) => item.slug !== exclude
@@ -38,7 +39,7 @@ const t = useTranslations(locale);
     </div>
   )}
 
-  <div class="rooms" data-size={size} data-reveal>
+  <div class="rooms" data-size={size} data-reveal style={`--room-cols: ${columns};`}>
     {visibleRooms.map((item) => (
       <RoomCard
         href={localizePath(locale, `/rooms/${item.slug}`)}

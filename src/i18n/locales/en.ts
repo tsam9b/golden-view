@@ -36,7 +36,7 @@ const en = {
 
   // Contact page
   "contact.title": "Contact & reservations",
-  "contact.description": "Get in touch with The Cellar Project.",
+  "contact.description": "Get in touch with Golden Views Studios.",
   "contact.heading": "Contact us",
   "contact.eyebrow": "Contact us",
   "contact.subheading": "Let’s get in touch",
@@ -56,7 +56,7 @@ const en = {
   "contact.message": "Message",
   "contact.messagePlaceholder": "How can we help?",
   "contact.send": "Send message",
-  "contact.note": "We’ll send your message to The Cellar Project.",
+  "contact.note": "We’ll send your message to Golden Views Studios.",
   "contact.noscript": "To contact us, email",
   "contact.sent": "Thanks for your message. It has been sent.",
   "contact.error":
@@ -112,11 +112,11 @@ const en = {
   "features.title": "Services",
   "features.page.description": "Explore the beautiful destinations we offer.",
   "introText.heading":
-    "The Cellar Project",
+    "Golden View Studios are ideally located near Lindos and within walking distance to Vlycha beach, nestled on the hill with a panoramic view of Mediterranean Sea. The atmosphere is laid back for your rest and relaxation.",
   "introText.details":
-    "Welcome to The Cellar Project, Rhodes’ premier destination for immersive wine appreciation, regional gastronomy, and sensory hospitality. Housed within a striking modern industrial space characterized by cast concrete ceilings, blackened steel frames, and exposed brick, our venue bridges the gap between raw architectural design and the refined art of Greek winemaking.",
+    "This is quite area for peaceful and serene atmosphere, yet near enough to the action and excitement of Lindos village. You will be only 2 km from Lindos Town and 45 km from Rhodes Town. The main road is 50 m from the studio complex, so you can use a bus to reach many destinations on the island or you can even take a taxi, since taxis are extremely reasonably priced.",
   "introText.contact":
-    "An Architectural Journey Through Greek Terroirs",
+    "We offer clean rooms with a friendly home like atmosphere for you comfort. There is the night life that only Lindos can offer for a romantic setting to dine, walk and enjoy the beautiful ancient village of Lindos shops, restaurants, clubs on the sandy beach. We welcome you to come and experience this unique Greek hospitality.",
   "introText.eyebrow":
     "An Architectural Journey Through Greek Terroirs",
 

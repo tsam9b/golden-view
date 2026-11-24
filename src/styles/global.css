@@ -2098,7 +2098,7 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
     gap: clamp(1.5rem, 5vw, 3.5rem);
     min-height: 78px;
     padding: 0 clamp(20px, 7vw, 112px);
-    background: linear-gradient(90deg, color-mix(in srgb, var(--navy), var(--gold) 25%), var(--navy));
+    background: linear-gradient(90deg, color-mix(in srgb, var(--gold), var(--navy) 25%), var(--navy));
     box-shadow: 0 2px 12px color-mix(in srgb, var(--navy) 12%, transparent);
 }
 .room-nav a {
@@ -2111,7 +2111,7 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
 }
 .room-nav a:hover,
 .room-nav a:focus-visible {
-    color: var(--gold);
+    color: var(--navy);
 }
 #description,
 #room-services,

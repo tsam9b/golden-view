@@ -12,7 +12,7 @@ return array(
     'password' => 'CHANGE_ME',
     // Sender shown in the email. Must be the mailbox above (or one it is allowed to send as).
     'from' => 'info@thecellarproject.gr',
-    'from_name' => 'The Cellar Project',
+    'from_name' => 'Golden Views Studios',
     // Where the messages are delivered.
     'to' => 'info@thecellarproject.gr',
     // Set to false only if the server certificate does not match the host name.

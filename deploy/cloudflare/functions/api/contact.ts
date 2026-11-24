@@ -34,7 +34,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: env.CONTACT_FROM ?? "The Cellar Project <contact@thecellarproject.gr>",
+      from: env.CONTACT_FROM ?? "Golden Views Studios <contact@thecellarproject.gr>",
       to: [env.CONTACT_TO ?? "info@thecellarproject.gr"],
       reply_to: email,
       subject: `New website message from ${name.replace(/[\r\n]/g, " ")}`,

@@ -1,6 +1,23 @@
 ---
 import { rooms } from "../data/rooms";
+import { getLocale } from "../i18n/utils";
 
+interface Props {
+  room?: string;
+  showRoomSelect?: boolean;
+  variant?: "default" | "orange";
+  color?: string;
+  placement?: "overlay" | "inline";
+}
+
+const {
+  room: selectedRoom,
+  showRoomSelect = true,
+  variant = "default",
+  color,
+  placement = "overlay",
+} = Astro.props;
+const locale = getLocale(Astro.currentLocale);
 const today = new Date();
 const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -13,7 +30,15 @@ const dateValue = (date: Date) => {
 };
 ---
 
-<aside class="booking-widget" data-booking-widget aria-labelledby="booking-title">
+<aside
+  class="booking-widget"
+  data-booking-widget
+  data-variant={variant}
+  data-color={color ? "custom" : undefined}
+  data-placement={placement}
+  style={color ? `--booking-color: ${color};` : undefined}
+  aria-labelledby="booking-title"
+>
   <div class="booking-widget__panel">
     <form
       class="booking-widget__form"
@@ -21,6 +46,9 @@ const dateValue = (date: Date) => {
       method="post"
       data-booking-search
     >
+      <input type="hidden" name="lang" value={locale} />
+      <input type="hidden" name="name" data-booking-name />
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="booking-widget__honeypot" />
       <div data-booking-search-stage>
         <header class="booking-widget__header">
           <h2 id="booking-title">Search Rooms</h2>
@@ -59,27 +87,33 @@ const dateValue = (date: Date) => {
           <select name="guests" data-guests>
             {Array.from({ length: 6 }, (_, index) => index + 1).map((guests) => (
               <option value={guests} selected={guests === 2}>
-                Adults: {guests}{guests === 2 ? ", Children: 1" : ""}
+                Adults: {guests}
               </option>
             ))}
           </select>
         </label>
 
-        <label class="booking-widget__field">
-          <span class="booking-widget__sr-only">Room</span>
-          <select name="room" data-room>
-            {rooms.map((room) => (
-              <option value={room.title}>{room.title}</option>
-            ))}
-          </select>
-        </label>
+        {showRoomSelect ? (
+          <label class="booking-widget__field">
+            <span class="booking-widget__sr-only">Room</span>
+            <select name="room" data-room>
+              {rooms.map((room) => (
+                <option value={room.title} selected={room.title === selectedRoom}>
+                  {room.title}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : (
+          <input type="hidden" name="room" value={selectedRoom} data-room />
+        )}
 
         <button class="booking-widget__submit" type="button" data-check-availability>
           Check availability
         </button>
       </div>
 
-      <div class="booking-widget__request" data-booking-request-stage hidden>
+      <fieldset class="booking-widget__request" data-booking-request-stage disabled hidden>
         <header class="booking-widget__header">
           <h2>Search Rooms</h2>
           <p>Request availability</p>
@@ -88,35 +122,35 @@ const dateValue = (date: Date) => {
         <div class="booking-widget__name-grid">
           <label>
             <span>First name</span>
-            <input type="text" name="first_name" autocomplete="given-name" required />
+            <input type="text" name="first_name" autocomplete="given-name" maxlength="99" required />
           </label>
           <label>
             <span>Last name</span>
-            <input type="text" name="last_name" autocomplete="family-name" required />
+            <input type="text" name="last_name" autocomplete="family-name" maxlength="100" required />
           </label>
         </div>
 
         <div class="booking-widget__name-grid">
           <label>
             <span>Email</span>
-            <input type="email" name="email" autocomplete="email" required />
+            <input type="email" name="email" autocomplete="email" maxlength="254" required />
           </label>
           <label>
             <span>Phone</span>
-            <input type="tel" name="phone" autocomplete="tel" />
+            <input type="tel" name="phone" autocomplete="tel" maxlength="100" />
           </label>
         </div>
 
         <label class="booking-widget__summary">
           <span class="booking-widget__sr-only">Booking request</span>
-          <textarea name="message" rows="4" data-booking-summary required></textarea>
+          <textarea name="message" rows="4" maxlength="9800" data-booking-summary required></textarea>
         </label>
 
         <button class="booking-widget__submit" type="submit">Submit request</button>
         <button class="booking-widget__back" type="button" data-booking-back>
           Go back
         </button>
-      </div>
+      </fieldset>
     </form>
   </div>
 </aside>
@@ -141,12 +175,20 @@ const dateValue = (date: Date) => {
     const checkinDisplay = widget.querySelector<HTMLElement>("[data-checkin-display]");
     const checkoutDisplay = widget.querySelector<HTMLElement>("[data-checkout-display]");
     const guests = widget.querySelector<HTMLSelectElement>("[data-guests]");
-    const room = widget.querySelector<HTMLSelectElement>("[data-room]");
+    const room = widget.querySelector<HTMLSelectElement | HTMLInputElement>("[data-room]");
     const searchStage = widget.querySelector<HTMLElement>("[data-booking-search-stage]");
-    const requestStage = widget.querySelector<HTMLElement>("[data-booking-request-stage]");
+    const requestStage = widget.querySelector<HTMLFieldSetElement>("[data-booking-request-stage]");
     const summary = widget.querySelector<HTMLTextAreaElement>("[data-booking-summary]");
+    const form = widget.querySelector<HTMLFormElement>("[data-booking-search]");
+    const name = widget.querySelector<HTMLInputElement>("[data-booking-name]");
+    const firstName = widget.querySelector<HTMLInputElement>('input[name="first_name"]');
+    const lastName = widget.querySelector<HTMLInputElement>('input[name="last_name"]');
+    const phone = widget.querySelector<HTMLInputElement>('input[name="phone"]');
 
-    if (!checkin || !checkout) return;
+    if (!checkin || !checkout || !form || !requestStage || !searchStage || !summary || !name || !firstName || !lastName || !phone || !guests || !room) {
+      console.error("Booking widget is missing required form elements.");
+      return;
+    }
 
     const today = new Date();
     const tomorrow = new Date(today);
@@ -185,24 +227,32 @@ const dateValue = (date: Date) => {
     });
 
     widget.querySelector("[data-check-availability]")?.addEventListener("click", () => {
-      if (!widget.querySelector<HTMLFormElement>("[data-booking-search]")?.reportValidity()) return;
+      if (!form.reportValidity()) return;
 
-      if (searchStage && requestStage && summary) {
-        const guestCount = guests?.value ?? "2";
-        const selectedRoom = room?.value ?? "";
-        summary.value =
-          `Could you please inform me about availability and prices for ${guestCount} Adults, ` +
-          `Children from ${formatDate(checkin.value)} to ${formatDate(checkout.value)} ` +
-          `for ${selectedRoom}.`;
-        searchStage.hidden = true;
-        requestStage.hidden = false;
-      }
+      summary.value =
+        `Could you please inform me about availability and prices for ${guests.value} adults ` +
+        `from ${formatDate(checkin.value)} to ${formatDate(checkout.value)} ` +
+        `for ${room.value}.`;
+      searchStage.hidden = true;
+      requestStage.hidden = false;
+      requestStage.disabled = false;
+      firstName.focus();
     });
 
     widget.querySelector("[data-booking-back]")?.addEventListener("click", () => {
-      if (searchStage && requestStage) {
-        requestStage.hidden = true;
-        searchStage.hidden = false;
+      requestStage.disabled = true;
+      requestStage.hidden = true;
+      searchStage.hidden = false;
+      widget.querySelector<HTMLButtonElement>("[data-check-availability]")?.focus();
+    });
+
+    form.addEventListener("submit", () => {
+      name.value = `${firstName.value.trim()} ${lastName.value.trim()}`.trim();
+    });
+
+    form.addEventListener("formdata", (event) => {
+      if (phone.value.trim()) {
+        event.formData.set("message", `${summary.value}\n\nPhone: ${phone.value.trim()}`);
       }
     });
   });
@@ -230,6 +280,18 @@ const dateValue = (date: Date) => {
     padding: 30px 32px 32px;
     background: var(--white);
     box-shadow: 0 18px 50px rgba(16, 37, 59, 0.18);
+  }
+
+  .booking-widget__request {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .booking-widget__honeypot {
+    position: absolute;
+    left: -9999px;
   }
 
   .booking-widget__header {
@@ -376,6 +438,42 @@ const dateValue = (date: Date) => {
     clip: rect(0 0 0 0);
   }
 
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__panel {
+    background: var(--booking-color, #c85b13);
+    color: var(--white);
+  }
+
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__header p,
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__date > span,
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__date strong,
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__date strong small,
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__name-grid label > span,
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__back {
+    color: var(--white);
+  }
+
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__dates {
+    border-color: color-mix(in srgb, var(--white) 55%, transparent);
+  }
+
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__submit {
+    background: var(--white);
+    color: color-mix(in srgb, var(--booking-color, #c85b13), black 25%);
+  }
+
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__submit:hover,
+  .booking-widget:is([data-variant="orange"], [data-color="custom"]) .booking-widget__submit:focus-visible {
+    background: #fff3e8;
+  }
+
+  .booking-widget[data-placement="inline"] {
+    position: static;
+    inset: auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
   @media (max-width: 760px) {
     .booking-widget {
       width: calc(100vw - 24px);
@@ -393,4 +491,5 @@ const dateValue = (date: Date) => {
       grid-template-columns: 1fr;
     }
   }
+
 </style>

@@ -68,7 +68,7 @@ Prepared but **inactive**, stored in `deploy/cloudflare/`. Use it when you move 
 5. In Pages, Settings, Variables and Secrets, add:
    - `RESEND_API_KEY` (secret, required)
    - `CONTACT_TO` (optional, default `info@thecellarproject.gr`)
-   - `CONTACT_FROM` (optional, default `The Cellar Project <contact@thecellarproject.gr>`)
+   - `CONTACT_FROM` (optional, default `Golden Views Studios <contact@thecellarproject.gr>`)
 6. Optionally delete `public/contact.php` (it is not executed on Cloudflare).
 7. Local test: `npx wrangler pages dev dist` with the key in a `.dev.vars` file (do not commit it).
 
