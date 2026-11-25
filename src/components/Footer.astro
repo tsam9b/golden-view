@@ -1,15 +1,20 @@
 ﻿---
 import { menu } from "../data/menu";
 import { Image } from "astro:assets";
-// import bookHere  from "../assets/book-here-02-150x150.png";
-import backgroundImage  from "../assets/backgrounds/square3.jpg";
-// import paymentMethods  from "../assets/payment-methods.png";
+import bookingImage from "../assets/book-here-02-150x150.png";
+import paymentMethods from "../assets/footer-card-marks.png";
+import facebookIcon from "../assets/social/icon-fb.svg";
+import tripadvisorIcon from "../assets/social/icon-trip.svg";
+import airbnbIcon from "../assets/social/icon-airbnb.svg";
+import bookingIcon from "../assets/social/icon-booking.svg";
+import googleIcon from "../assets/social/icon-google.svg";
 import type { UiKey } from "../i18n/ui";
 import { site, phoneHref, emailHref } from "../config/site";
 import { getLocale, localizePath, useTranslations } from "../i18n/utils";
 
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
+const booking = menu.find(({ section }) => section === "book");
 ---
 
 <footer class="site-footer">
@@ -20,22 +25,18 @@ const t = useTranslations(locale);
 
       <address>
         <div>{site.name}</div>
-        <div>{site.tagline}</div>
+        <!-- <div>{site.tagline}</div> -->
         <div>{site.address1}</div>
         <div>{site.address2}</div>
+        <a href={phoneHref}>{site.phone}</a>
         <a href={emailHref}>{site.email}</a>
-        <div>{site.eot}</div>
+        <div>EOT: {site.eot}</div>
       </address>
     </div>
 
     <!-- Site links -->
     <div class="footer-column">
-     
-    </div>
-
-    <!-- Social links -->
-    <div class="footer-column footer-social">
-       <h3>{t("footer.siteLinks")}</h3>
+      <h3>{t("footer.siteLinks")}</h3>
 
       <nav class="footer-links" aria-label={t("footer.navLabel")}>
         {menu
@@ -46,11 +47,40 @@ const t = useTranslations(locale);
       </nav>
     </div>
 
+    <div class="footer-column footer-social">
+      <h3>{t("footer.social")}</h3>
+      <a class="social-link" href={site.social.facebook} target="_blank" rel="noopener noreferrer" aria-label={t("footer.facebook")}>
+        <Image src={facebookIcon} alt="" width={24} height={24} />
+      </a>
+      <h3 class="find-us-title">{t("footer.findUs")}</h3>
+      <div class="footer-social-links">
+        <a class="social-link social-link--tripadvisor" href={site.social.tripadvisor} target="_blank" rel="noopener noreferrer" aria-label="Tripadvisor">
+          <Image src={tripadvisorIcon} alt="" width={24} height={24} />
+        </a>
+        <a class="social-link" href={site.social.airbnb} target="_blank" rel="noopener noreferrer" aria-label="Airbnb">
+          <Image src={airbnbIcon} alt="" width={24} height={24} />
+        </a>
+        {booking && (
+          <a class="social-link" href={booking.href} target="_blank" rel="noopener noreferrer" aria-label="Booking.com">
+            <Image src={bookingIcon} alt="" width={24} height={24} />
+          </a>
+        )}
+        <a class="social-link social-link--google" href={site.social.maps} target="_blank" rel="noopener noreferrer" aria-label={t("footer.maps")}>
+          <Image src={googleIcon} alt="" width={24} height={24} />
+        </a>
+      </div>
+    </div>
+
+    {booking && (
+      <div class="footer-column footer-booking">
+        <a href={booking.href} target="_blank" rel="noopener noreferrer">
+          <Image src={bookingImage} alt={t("nav.book")} loading="lazy" />
+        </a>
+      </div>
+    )}
   </div>
 
-  <div class="legal" style={`
-background: color-mix(in srgb, var(--gold) 75%, #6f786e 25%);
-background-position: center center; `}>
+  <div class="legal">
     <div class="legal-inner">
       <span>
         Created & Supported by @ Tobi Solutions
@@ -58,8 +88,7 @@ background-position: center center; `}>
       <span>
         {site.copyright}
       </span>
-
-      <!-- <Image src={paymentMethods} alt="paymentMethodsAlt" width={250} height={50} loading="lazy" /> -->
+      <Image src={paymentMethods} alt="Visa, American Express, Mastercard" loading="lazy" />
     </div>
   </div>
-</footer>``
+</footer>

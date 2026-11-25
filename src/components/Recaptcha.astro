@@ -1,0 +1,110 @@
+---
+import { getLocale, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<input type="hidden" name="g-recaptcha-response" data-recaptcha-token />
+<p data-recaptcha-error role="alert" hidden>{t("recaptcha.error")}</p>
+<p class="form-note">
+  {t("recaptcha.notice")}
+  <a href="https://policies.google.com/privacy">{t("recaptcha.privacy")}</a>
+  {t("recaptcha.and")}
+  <a href="https://policies.google.com/terms">{t("recaptcha.terms")}</a>.
+</p>
+
+<script>
+  interface Recaptcha {
+    ready(callback: () => void): void;
+    execute(siteKey: string, options: { action: string }): Promise<string>;
+  }
+
+  declare global {
+    interface Window {
+      grecaptcha?: Recaptcha;
+    }
+  }
+
+  let loading: Promise<Recaptcha> | undefined;
+
+  function loadRecaptcha(siteKey: string): Promise<Recaptcha> {
+    if (loading) return loading;
+    loading = new Promise<Recaptcha>((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
+      script.async = true;
+      const timeout = window.setTimeout(() => {
+        script.remove();
+        reject(new Error("reCAPTCHA timed out"));
+      }, 15000);
+      script.onerror = () => {
+        window.clearTimeout(timeout);
+        script.remove();
+        reject(new Error("Could not load reCAPTCHA"));
+      };
+      script.onload = () => {
+        if (!window.grecaptcha) {
+          window.clearTimeout(timeout);
+          reject(new Error("reCAPTCHA is unavailable"));
+          return;
+        }
+        const recaptcha = window.grecaptcha;
+        recaptcha.ready(() => {
+          window.clearTimeout(timeout);
+          resolve(recaptcha);
+        });
+      };
+      document.head.append(script);
+    }).catch((error) => {
+      loading = undefined;
+      throw error;
+    });
+    return loading;
+  }
+
+  document.querySelectorAll<HTMLFormElement>("form[data-recaptcha-site-key]").forEach((form) => {
+    const token = form.querySelector<HTMLInputElement>("[data-recaptcha-token]");
+    const errorMessage = form.querySelector<HTMLElement>("[data-recaptcha-error]");
+    if (!token || !errorMessage) {
+      console.error("reCAPTCHA form is missing required elements.");
+      return;
+    }
+
+    let pending = false;
+    let verified = false;
+    form.addEventListener("submit", async (event) => {
+      if (verified) {
+        verified = false;
+        return;
+      }
+      event.preventDefault();
+      if (pending) return;
+      pending = true;
+      errorMessage.hidden = true;
+      token.value = "";
+
+      try {
+        const siteKey = form.dataset.recaptchaSiteKey;
+        if (!siteKey) throw new Error("reCAPTCHA site key is not configured");
+        const recaptcha = await loadRecaptcha(siteKey);
+        const result = await new Promise<string>((resolve, reject) => {
+          const timeout = window.setTimeout(() => reject(new Error("reCAPTCHA execution timed out")), 15000);
+          recaptcha.execute(siteKey, { action: "contact" }).then(
+            (value) => { window.clearTimeout(timeout); resolve(value); },
+            (error) => { window.clearTimeout(timeout); reject(error); },
+          );
+        });
+        if (!result) throw new Error("reCAPTCHA returned an empty token");
+        token.value = result;
+        if (!form.reportValidity()) return;
+        verified = true;
+        form.requestSubmit();
+      } catch (error) {
+        console.error("reCAPTCHA verification could not start:", error);
+        errorMessage.hidden = false;
+      } finally {
+        pending = false;
+      }
+    });
+  });
+</script>

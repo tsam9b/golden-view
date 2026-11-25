@@ -17,6 +17,8 @@ function field($key)
     return (isset($_POST[$key]) && is_string($_POST[$key])) ? trim($_POST[$key]) : '';
 }
 
+require_once __DIR__ . '/recaptcha.php';
+
 if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     header('Allow: POST');
@@ -40,6 +42,10 @@ if (
     $message === '' ||
     strlen($message) > 10000
 ) {
+    redirect_to_contact('error');
+}
+
+if (!recaptcha_verify(field('g-recaptcha-response'))) {
     redirect_to_contact('error');
 }
 
@@ -134,11 +140,11 @@ if (is_array($config)) {
 } else {
     // Fallback when no SMTP config is present
     $headers = implode("\r\n", array(
-        'From: Golden Views Studios <no-reply@thecellarproject.gr>',
+        'From: Golden Views Studios <no-reply@golden-view.gr>',
         'Reply-To: ' . $safe_email,
         'Content-Type: text/plain; charset=UTF-8',
     ));
-    $sent = @mail('info@thecellarproject.gr', $subject, $body, $headers);
+    $sent = @mail('info@golden-view.gr', $subject, $body, $headers);
 }
 
 if (!$sent) {

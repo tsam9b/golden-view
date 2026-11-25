@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # contact form SMTP credentials
 public/contact-config.php
+
+# private reCAPTCHA configuration
+/recaptcha-config.php

@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { theme } from "../config/theme";
 
 interface Props {
   href: string;
@@ -10,6 +11,7 @@ interface Props {
   description?: string | null;
   classes?: string[];
   size?: "sm" | "md" | "lg";
+  columns?: number;
 }
 
 const {
@@ -21,30 +23,34 @@ const {
   description,
   classes = [],
   size = "md",
+  columns = 3,
 } = Astro.props;
 
-const imageSizes = {
-  sm: {
-    widths: [360, 540, 720],
-    sizes: "(max-width: 760px) 100vw, (max-width: 1000px) 50vw, 25vw",
-  },
-  md: {
-    widths: [480, 720, 960],
-    sizes: "(max-width: 760px) 100vw, (max-width: 1000px) 50vw, 33vw",
-  },
-  lg: {
-    widths: [640, 960, 1280, 1600],
-    sizes: "(max-width: 760px) 100vw, (max-width: 1000px) 75vw, 50vw",
-  },
-}[size];
+const imageRatio = image.width / image.height;
+const cardAspect = theme.cards.aspect;
+const [aspectWidth, aspectHeight] = cardAspect === "auto"
+  ? [1, 1]
+  : cardAspect.split("/").map(Number);
+// object-fit: cover may scale the image wider than the visible card.
+const widthFactor = cardAspect === "auto"
+  ? 1
+  : Math.max(1, imageRatio * aspectHeight / aspectWidth);
+const minimumWidth = cardAspect === "auto"
+  ? Math.ceil(imageRatio * ({ sm: 340, md: 480, lg: 620 }[size]))
+  : 0;
+const slot = (viewportShare: number) => {
+  const width = `${Math.ceil(viewportShare * widthFactor * 100) / 100}vw`;
+  return minimumWidth ? `max(${width}, ${minimumWidth}px)` : width;
+};
+const sizes = `(max-width: 760px) ${slot(100)}, (max-width: 1000px) ${slot(50)}, ${slot(100 / columns)}`;
 ---
 
 <a class:list={["room", ...classes]} href={href}>
   <Image
     src={image}
     alt={imageAlt}
-    widths={imageSizes.widths}
-    sizes={imageSizes.sizes}
+    widths={[360, 540, 720, 960, 1280, 1600, 1920]}
+    sizes={sizes}
     format="avif"
     loading="lazy"
   />

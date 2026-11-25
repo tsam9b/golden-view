@@ -41,31 +41,42 @@ const en = {
   "contact.eyebrow": "Contact us",
   "contact.subheading": "Let’s get in touch",
   "contact.intro":
-    "Get in touch to discover our wines, arrange a private tasting, or plan your visit.",
+    "Give us a call or drop an email about any questions, concerns or comments you may have.<br>We’d love to hear from you!",
+  "contact.address": "Address:",
   "contact.location": "Location:",
-  "contact.locationValue": "Profiti Ilia street",
+  "contact.addressValue": "Vlycha Beach, Lindos",
+  "contact.locationValue": "Rhodes Island, Greece",
   "contact.locationValue2": "Afandou, Rhodes Island",
-  "contact.locationValue3": "Greece",
   "contact.email": "Email:",
+  "contact.eot": "EOT/ΜΗΤΕ:",
+  "contact.mobile": "Mobile:",
   "contact.phone": "Telephone:",
+  "contact.fax": "Fax:",
   "contact.hours": "Opening hours",
   "contact.hoursValue": "Mon – Sun | 10:30 am – 11:00 pm",
+  "contact.faxValue": "+30 22410 31906",
+  "contact.eotValue": "1143K122K0513701",
   "contact.name": "Your name",
   "contact.namePlaceholder": "Your full name",
   "contact.emailLabel": "Email address",
   "contact.message": "Message",
   "contact.messagePlaceholder": "How can we help?",
   "contact.send": "Send message",
+  "recaptcha.error": "Verification failed. Please try again or contact us by email.",
+  "recaptcha.notice": "This site is protected by reCAPTCHA and the Google",
+  "recaptcha.privacy": "Privacy Policy",
+  "recaptcha.and": "and",
+  "recaptcha.terms": "Terms of Service apply",
   "contact.note": "We’ll send your message to Golden Views Studios.",
   "contact.noscript": "To contact us, email",
   "contact.sent": "Thanks for your message. It has been sent.",
   "contact.error":
-    "We couldn’t send your message. Please email info@thecellarproject.gr directly.",
+    "We couldn’t send your message. Please email {email} directly.",
 
   // Home page
-  "home.title": "An Architectural Journey Through Greek Terroirs",
+  "home.title": "Golden View Studios in Rhodes Island",
   "home.description":
-    "Motor and sailing room day trips, sunset cruises and charters in Rhodes, Greece, with local room owners.",
+    "Enjoy a relaxing stay at Golden View Studios, ideally located near Lindos and Vlycha beach in Rhodes Island.",
   "banner.title": "Call Us to Make a Reservation Now !",
   "banner.description": "We accept bookings made by phone, email or online.",
   "banner.button": "CONTACT US",
@@ -78,7 +89,7 @@ const en = {
   "slideshow.goTo": "Go to slide {n}",
 
   // Services
-  "services.title": "Installations",
+  "services.title": "Facilities",
 
   "services": [
     {
@@ -144,8 +155,8 @@ const en = {
     "All Standard Studios come with private facilities: kitchenette for self catering accommodations, Direct dial phone, radio, and all have a view of the sea, while Executive Studios are much larger, more comfortable and also equipped with TV.",
   "rooms.intro3":
     "Our cleaning staff change the towels and linens, and service the rooms three times a week. Air Conditioning is included without extra cost in all rooms.",
-  "rooms.location": "Location",
-  "rooms.locationValue": "Rhodes island, Greece",
+  "rooms.location": "Address",
+  "rooms.locationValue": "Vlycha Beach, Lindos",
   "rooms.phone": "Phone",
   "rooms.email": "Email",
   "about.eyebrow": "Golden View Studios | Vlycha Beach, Lindos",

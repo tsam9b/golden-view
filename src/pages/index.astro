@@ -13,7 +13,7 @@ import ImageText from "../components/ImageText.astro";
 import IntroText from "../components/IntroText.astro";
 import { theme } from "../config/theme";
 import { site } from "../config/site";
-import textImage from "../assets/features/cortile-bar-1000x570.jpg";
+import textImage from "../assets/gallery/image_2/full/main.jpg";
 
 
 const t = useTranslations(getLocale(Astro.currentLocale));
@@ -35,7 +35,7 @@ const t = useTranslations(getLocale(Astro.currentLocale));
     <ImageText
       image={textImage}
       eyebrow="Golden View Studios | Vlycha Beach, Lindos"
-      title="Golden View Studios"
+      title="Welcome to Golden View Studios"
       text="On the east coast of Rhodes in the village of Vlycha near beautiful Lindos, these standard and executive studio apartments offer the space and location for a relaxing holiday. Free WiFi access is available in all units and in the shared lounge area. Newly constructed in 2002 the apartments are situated near one of the most popular towns of the island. The accommodation is only 1 km from the sandy beach with its uninterrupted views of the Aegean Sea; the ideal setting for a swim. You will be only 2 km from Lindos Town and 45 km from Rhodes Town. The main road is 50 m from the studio complex, so you can reach other island destinations by taxi or bus."
       buttonText="Our Rooms"
       buttonLink="/rooms"
@@ -50,7 +50,7 @@ const t = useTranslations(getLocale(Astro.currentLocale));
     <ContactBanner />
   </div>
   <section class="section">
-    <Map location={site.mapCoords} title={t("map.title")} height={theme.mapHeight} zoom={15} />
+    <Map location={`${site.name}, ${site.address1}, ${site.address2}`} title={t("map.title")} height={theme.mapHeight} zoom={15} />
   </section>
 
 </BaseLayout>

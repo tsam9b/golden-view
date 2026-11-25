@@ -8,13 +8,13 @@ return array(
     'port' => 465,
     'secure' => 'ssl', // 'ssl' or 'tls'
     // Full mailbox address and password of an email account that exists on this server.
-    'username' => 'info@thecellarproject.gr',
+    'username' => 'info@golden-view.gr',
     'password' => 'CHANGE_ME',
     // Sender shown in the email. Must be the mailbox above (or one it is allowed to send as).
-    'from' => 'info@thecellarproject.gr',
+    'from' => 'info@golden-view.gr',
     'from_name' => 'Golden Views Studios',
     // Where the messages are delivered.
-    'to' => 'info@thecellarproject.gr',
+    'to' => 'info@golden-view.gr',
     // Set to false only if the server certificate does not match the host name.
     'verify_cert' => true,
 );

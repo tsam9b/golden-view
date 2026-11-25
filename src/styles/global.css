@@ -1317,6 +1317,15 @@ textarea {
     margin: 0 !important
 }
 
+.form-note a {
+    text-decoration: underline
+}
+
+[data-recaptcha-error] {
+    color: #a00000;
+    font-size: 14px
+}
+
 .toast {
     position: fixed;
     top: 24px;
@@ -1754,6 +1763,7 @@ textarea {
     overflow: hidden;
     isolation: isolate;
     color: var(--white);
+    margin: 18px;
     /* background: color-mix(in srgb, var(--gold) 75%, transparent); */
 }
 
@@ -2421,25 +2431,45 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
     transition: color 0.2s ease;
   }
 
-  .footer-social .social-link {
+  .foot .footer-social a.social-link {
     display: inline-flex;
-    color: color-mix(in srgb, var(--navy) 45%, var(--white));
-    text-decoration: none;
     align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
+    transition: opacity 0.2s ease;
   }
 
-  .social-link svg {
+  .foot .footer-social a.social-link:hover,
+  .foot .footer-social a.social-link:focus-visible {
+    opacity: 0.65;
+  }
+
+  .footer-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .social-link img {
     width: 20px;
     height: 20px;
+    object-fit: contain;
+  }
+
+  .social-link--tripadvisor img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .social-link--google img {
+    width: 23px;
+    height: 23px;
   }
 
   .footer-social .find-us-title {
     margin: 1rem 0 1rem;
-  }
-
-  .footer-social .maps-link svg {
-    width: 22px;
-    height: 22px;
   }
 
   .footer-booking {
@@ -2448,9 +2478,16 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
     padding-top: 1rem;
   }
 
-  .footer-booking a {
+  .foot div.footer-booking a {
     display: block;
     width: 150px;
+    border-radius: 18px;
+    transition: opacity 0.2s ease;
+  }
+
+  .foot div.footer-booking a:hover,
+  .foot div.footer-booking a:focus-visible {
+    opacity: 0.85;
   }
 
   .footer-booking img {
@@ -2462,21 +2499,34 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
 
   .legal {
     margin: 3rem 0 0;
-    padding: 1.25rem 7.5%;
-    border-top: 1px solid var(--line);
+    padding: 0.7rem 2.25%;
+    border: 0;
+    background: linear-gradient(110deg, #287f91, #7d929d 58%, #608d98);
     font-size: 0.75rem;
     font-weight: 300;
   }
 
   .legal-inner {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
-    gap: 12rem;
+    gap: 1rem;
+    width: 100%;
     max-width: 1300px;
     margin: 0 auto;
     color: var(--white);
     font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+
+  .legal-inner > :nth-child(2) {
+    text-align: center;
+  }
+
+  .legal-inner img {
+    justify-self: end;
+    width: 150px;
+    height: auto;
   }
 
   .legal-links {
@@ -2491,10 +2541,6 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
   }
 
   @media (max-width: 900px) {
-    .legal-inner {
-      gap: 2rem;
-    }
-
     .foot {
       padding-inline: 5%;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2532,7 +2578,7 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
       justify-content: flex-start;
     }
 
-    .footer-booking a {
+    .foot div.footer-booking a {
       width: 120px;
     }
 
@@ -2541,18 +2587,16 @@ background-color: color-mix(in srgb, var(--white) 15%, transparent);
     }
 
     .legal-inner {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.35rem;
-      font-size: 0.95rem;
-      letter-spacing: 0.08em;
-      line-height: 1.8;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 0.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      line-height: 1.5;
     }
 
     .legal-inner img {
-      margin-top: 1rem;
-      max-width: 100%;
-      height: auto;
+      justify-self: center;
     }
 
     .legal-links {

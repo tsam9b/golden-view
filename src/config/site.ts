@@ -90,6 +90,8 @@ export const site = {
   // tagline: "Monday – Sunday | 10:30 am – 11:00 pm",
   address1: "Vlycha Beach, Lindos",
   address2: "Rhodes Island, Greece",
+  tel: "+30 22440 31905",
+  fax: "+30 22410 31906",
   phone: "+30 693 236 8133",
   email: "info@golden-view.gr",
   eot: "1143K122K0513701",
@@ -98,6 +100,8 @@ export const site = {
   social: {
     facebook: "https://www.facebook.com/profile.php?id=100046915976025#",
     maps: "https://www.google.com/maps/place/Golden+View+Studios/@36.1025552,28.0654914,581m/data=!3m1!1e3!4m9!3m8!1s0x14950c2b3a695c93:0x59ee3f9d197f00cb!5m2!4m1!1i2!8m2!3d36.103069!4d28.064274!16s%2Fg%2F1wjspnpz?entry=ttu&g_ep=EgoyMDI2MTExNy4wIKXMDSoASAFQAw%3D%3D",
+    tripadvisor: "https://www.tripadvisor.com/Hotel_Review-g227884-d1049573-Reviews-Golden_View_Studios-Lindos_Rhodes_Dodecanese_South_Aegean.html",
+    airbnb: "https://www.airbnb.com/users/show/5345915",
   },
   // Swap these to change the logo or favicon everywhere.
   logo,

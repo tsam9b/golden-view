@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site, phoneHref, emailHref } from "../config/site";
 import { getLocale, useTranslations } from "../i18n/utils";
+import { html } from "motion/react-client";
+import Recaptcha from "../components/Recaptcha.astro";
 
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
@@ -17,12 +19,16 @@ const t = useTranslations(locale);
     <div class="contact-cont">
       <p class="eyebrow">{t("contact.eyebrow")}</p>
       <h2>{t("contact.subheading")}</h2>
-      <p>{t("contact.intro")}</p>
+      <p set:html={t("contact.intro")}></p>
 
       <div class="contacts">
         <div class="item flx" style="text-align: end;">
+          <div class="child">{t("contact.address")}</div>
+          <div class="child">{t("contact.addressValue")}</div>
+        </div>
+        <div class="item flx" style="text-align: end;">
           <div class="child">{t("contact.location")}</div>
-          <div class="child">{t("contact.locationValue")}<br>{t("contact.locationValue2")}<br>{t("contact.locationValue3")}</div>
+          <div class="child">{t("contact.locationValue")}</div>
         </div>
          <!-- <div class="item flx">
           <div class="child"></div>
@@ -36,26 +42,36 @@ const t = useTranslations(locale);
             </a>
           </div>
         </div>
-        <div class="item flx">
+        <div class="item flx" style="text-align: end;">
+          <div class="child">{t("contact.mobile")}</div>
+          <div class="child">{site.phone}</div>
+        </div>
+        <!-- <div class="item flx">
           <div class="child">{t("contact.phone")}</div>
           <div class="child">
             <a href={phoneHref}>{site.phone}</a>
           </div>
-        </div>
+        </div> -->
         <div class="item flx">
-          <div class="child">{t("contact.hours")}</div>
+          <div class="child">{t("contact.phone")}</div>
           <div class="child">
-            {t("contact.hoursValue")}
+            <div class="child">{site.tel}</div>
           </div>
         </div>
-        <!-- <div class="item flx">
-          <div class="child">EOT/ΜΗΤΕ:</div>
+        <div class="item flx">
+          <div class="child">{t("contact.fax")}</div>
+          <div class="child">
+            <div class="child">{site.fax}</div>
+          </div>
+        </div>
+        <div class="item flx">
+          <div class="child">{t("contact.eot")}</div>
           <div class="child">{site.eot}</div>
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="box">
-      <form id="contact-form" action="/contact.php" method="post">
+      <form id="contact-form" action="/contact.php" method="post" data-recaptcha-site-key={import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? ""}>
         <input type="hidden" name="lang" value={locale} />
         <input
           type="text"
@@ -93,6 +109,7 @@ const t = useTranslations(locale);
             placeholder={t("contact.messagePlaceholder")}
           ></textarea>
         </label>
+        <Recaptcha />
         <button class="btn" type="submit">{t("contact.send")} &#8599;</button>
         <!-- <p class="form-note">{t("contact.note")}</p> -->
       </form>
@@ -111,7 +128,7 @@ const t = useTranslations(locale);
     role="status"
     aria-live="polite"
     data-sent={t("contact.sent")}
-    data-error={t("contact.error")}
+    data-error={t("contact.error", { email: site.email })}
   >
     <span class="toast-text"></span>
     <button class="toast-close" type="button" aria-label="Close">&times;</button>
